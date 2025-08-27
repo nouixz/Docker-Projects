@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Glassmorphism Demo</title>
+    <meta name="description" content="A modern glassmorphism website with frosted glass effects, colorful gradients, and layered depth." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+    <script defer src="/script.js"></script>
+  </head>
+  <body>
+    <!-- Background canvas & decorative blobs -->
+    <div class="bg"></div>
+    <div class="blob b1" aria-hidden="true"></div>
+    <div class="blob b2" aria-hidden="true"></div>
+    <div class="blob b3" aria-hidden="true"></div>
+
+    <!-- Page chrome -->
+    <header class="glass nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <div class="logo">◎</div>
+          <span>Frosted</span>
+        </div>
+        <nav>
+          <a href="#features">Features</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#cta" class="btn glass-btn">Get Started</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-card glass">
+            <h1>Frosted glass UI,<br /><span class="accent">delicately vivid</span>.</h1>
+            <p>
+              A clean, modern aesthetic with layered transparency, soft borders,
+              and rich gradient color. Subtle reflections, tasteful shadows,
+              and a buttery backdrop blur to bring everything to life.
+            </p>
+            <div class="hero-actions">
+              <a href="#cta" class="btn primary">Explore the demo</a>
+              <a href="#features" class="btn ghost">Learn more</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature grid -->
+      <section id="features" class="features">
+        <div class="container grid">
+          <article class="card glass">
+            <div class="card-top">
+              <span class="tag">Glass</span>
+            </div>
+            <h3>Frosted surfaces</h3>
+            <p>
+              Backdrop blur and translucent layers create natural depth while
+              preserving contrast and legibility.
+            </p>
+          </article>
+
+          <article class="card glass">
+            <div class="card-top">
+              <span class="tag">Color</span>
+            </div>
+            <h3>Harmonic gradients</h3>
+            <p>
+              A complimentary spectrum of neon-tinged hues blends smoothly to
+              paint a lively yet balanced canvas.
+            </p>
+          </article>
+
+          <article class="card glass">
+            <div class="card-top">
+              <span class="tag">Detail</span>
+            </div>
+            <h3>Subtle highlights</h3>
+            <p>
+              1px light borders, gentle reflections, and feathered shadows make
+              each element feel tactile and crisp.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Gallery / layered stack -->
+      <section id="gallery" class="gallery">
+        <div class="container stack">
+          <div class="stack-item glass tilt t1">
+            <h4>Layered card</h4>
+            <p>Translucent panel with a soft specular sheen.</p>
+          </div>
+          <div class="stack-item glass tilt t2">
+            <h4>Depth & parallax</h4>
+            <p>Perspective and motion hint at a 3D space.</p>
+          </div>
+          <div class="stack-item glass tilt t3">
+            <h4>Focus</h4>
+            <p>Foreground elements subtly separate from the backdrop.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section id="cta" class="cta">
+        <div class="container">
+          <div class="cta-card glass">
+            <h2>Build your own aesthetic</h2>
+            <p>
+              Start from this template and tune colors, blur, and layering to
+              craft something uniquely yours.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#">Get the template</a>
+              <a class="btn ghost" href="#">Design tips</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer glass">
+      <div class="container foot">
+        <span>© <span id="year"></span> Frosted — Crafted with care</span>
+        <a href="#top" class="btn micro">Back to top</a>
+      </div>
+    </footer>
+  </body>
+  </html>
