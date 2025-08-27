@@ -1,37 +1,41 @@
-// Small interactivity to enhance the glass feel
+// Minimal starter script for CryptoVault template
 (function () {
+  // Footer year
   const yearEl = document.getElementById('year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  // Parallax tilt effect on stacked cards
-  const cards = document.querySelectorAll('.tilt');
-  const constrain = 12;
-  function transform(x, y, rect) {
-    const calcX = (y - rect.top - rect.height / 2) / constrain;
-    const calcY = (x - rect.left - rect.width / 2) / constrain;
-    return `perspective(900px) rotateX(${calcX}deg) rotateY(${calcY}deg)`;
+  // Initialize Lucide icons when library is available
+  function initIcons() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    } else {
+      // Retry shortly if script not yet loaded
+      setTimeout(initIcons, 50);
+    }
   }
-  function addTilt(card) {
-    let raf = null;
-    function onMove(e) {
-      const p = e.touches ? e.touches[0] : e;
-      const rect = card.getBoundingClientRect();
-      const t = transform(p.clientX, p.clientY, rect);
-      if (!raf) {
-        raf = requestAnimationFrame(() => {
-          card.style.transform = t;
-          raf = null;
-        });
+  initIcons();
+
+  // Simple hash router: show one [data-page] at a time, default to trading
+  const pages = Array.from(document.querySelectorAll('[data-page]'));
+  const navLinks = Array.from(document.querySelectorAll('[data-route]'));
+
+  function setRoute(hash) {
+    const page = (hash || '#/trading').replace('#/', '') || 'trading';
+    pages.forEach(sec => { sec.hidden = sec.getAttribute('data-page') !== page; });
+    navLinks.forEach(a => {
+      const target = (a.getAttribute('href') || '').replace('#/', '');
+      const isActive = target === page;
+      a.classList.toggle('text-white', isActive);
+      a.classList.toggle('text-white/70', !isActive);
+      if (a.classList.contains('px-4')) {
+        // Special styling for the first pill link
+        a.classList.toggle('bg-white/10', isActive);
       }
-    }
-    function reset() {
-      card.style.transform = '';
-    }
-    card.addEventListener('mousemove', onMove);
-    card.addEventListener('mouseleave', reset);
-    card.addEventListener('touchstart', onMove, { passive: true });
-    card.addEventListener('touchmove', onMove, { passive: true });
-    card.addEventListener('touchend', reset);
+    });
+    // Rebuild icons in newly-shown section
+    initIcons();
   }
-  cards.forEach(addTilt);
+
+  window.addEventListener('hashchange', () => setRoute(location.hash));
+  setRoute(location.hash);
 })();
