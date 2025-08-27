@@ -3,543 +3,365 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CryptoVault</title>
-    <meta name="description" content="Advanced crypto trading platform template." />
+    <title>Portfolio</title>
+    <meta name="description" content="Personal portfolio showcasing projects and open-source work." />
+    <meta name="github:user" content="nouixz" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/styles.css" />
     <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script defer src="/script.js"></script>
+  <script defer src="/script.js"></script>
   </head>
-  <body class="bg-black font-sans antialiased text-white overflow-x-hidden" style="font-family: 'Inter', sans-serif;">
+  <body class="min-h-screen text-white bg-black antialiased overflow-x-hidden">
+    <!-- Header / Nav -->
+    <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-white/10" style="background: rgba(0,0,0,0.4)">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+        <a href="#/home" data-route class="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/10 border border-white/20">
+          <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 11l9-8 9 8"/><path d="M4 10v10a1 1 0 001 1h4V14h6v7h4a1 1 0 001-1V10"/>
+            </svg>
+          </div>
+          <span class="font-semibold">Portfolio</span>
+        </a>
+        <nav class="flex items-center gap-2">
+          <a href="#/home" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Home</a>
+          <a href="#/projects" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Projects</a>
+          <a href="#/about" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">About</a>
+          <a href="#/blog" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Blog</a>
+          <a href="#/contact" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Contact</a>
+          <div id="auth-controls" class="ml-4 flex items-center gap-2">
+            <button id="open-login" class="px-5 py-2 rounded-2xl text-sm font-medium relative overflow-hidden group"
+              style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(16px);">
+              <span class="relative z-10 flex items-center gap-2">
+                <i data-lucide="log-in" class="w-4 h-4"></i>
+                Sign In
+              </span>
+              <span class="pointer-events-none absolute -inset-1 bg-gradient-to-r from-white/10 via-white/30 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></span>
+              <span class="pointer-events-none absolute inset-0 rounded-3xl" style="box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 20px 60px rgba(99,102,241,0.25), 0 10px 30px rgba(168,85,247,0.15);"></span>
+            </button>
+            <a id="account-pill" href="/logout" class="hidden px-3 py-2 rounded-2xl text-sm font-medium"
+               style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(16px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 12px 40px rgba(99,102,241,0.2), 0 8px 24px rgba(168,85,247,0.12);">
+              <span class="flex items-center gap-2">
+                <img id="account-avatar" class="w-5 h-5 rounded-full border border-white/20" alt="avatar" />
+                <span id="account-name">Signed in</span>
+                <span class="text-white/60">• Logout</span>
+              </span>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
     <!-- Background Elements -->
-    <div class="fixed inset-0 z-0">
+    <div class="fixed inset-0 z-0 pointer-events-none">
       <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
       <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s"></div>
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_50%)]"></div>
     </div>
 
-    <div class="fixed w-full h-screen">
+    <!-- Optional 3D Scene Background (Spline) -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
       <iframe src="https://my.spline.design/aidatamodelinteraction-mdTL3FktFVHgDvFr5TKtnYDV/" frameborder="0" width="100%" height="100%"></iframe>
     </div>
 
-    <!-- Navigation -->
-    <header class="relative z-50 border-b border-white/10 glass sticky top-0" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);">
-      <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <nav class="flex items-center justify-between h-16">
-          <!-- Logo -->
-          <a href="#" class="flex items-center gap-3 text-lg font-semibold group animate-slide-in-left delay-100">
-            <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                <path d="m2 17 10 5 10-5"></path>
-                <path d="m2 12 10 5 10-5"></path>
-              </svg>
+    <main class="relative z-10">
+      <!-- Login Modal -->
+      <div id="login-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6">
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative w-full max-w-md rounded-3xl border border-white/20 p-6" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(18px); box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl grid place-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="m2 17 10 5 10-5"></path>
+                  <path d="m2 12 10 5 10-5"></path>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold">Sign in</h3>
             </div>
-            <span class="text-white font-semibold">CryptoVault</span>
-          </a>
-
-          <!-- Desktop Navigation -->
-          <div class="hidden lg:flex items-center gap-8 animate-fade-in-up delay-200">
-            <div class="flex items-center gap-6 text-sm font-medium">
-              <a href="#/trading" data-route class="px-4 py-2 bg-white/10 text-white rounded-2xl hover:bg-white/20 transition-all duration-300 backdrop-blur-sm">Trading</a>
-              <a href="#/markets" data-route class="text-white/70 hover:text-white transition-colors duration-300">Markets</a>
-              <a href="#/products" data-route class="flex items-center gap-1 text-white/70 hover:text-white transition-colors duration-300">
-                Products <i data-lucide="chevron-down" class="w-4 h-4"></i>
-              </a>
-              <a href="#/analytics" data-route class="text-white/70 hover:text-white transition-colors duration-300">Analytics</a>
-              <a href="#/learn" data-route class="text-white/70 hover:text-white transition-colors duration-300">Learn</a>
-            </div>
-
-            <div class="flex items-center gap-4">
-              <div class="w-px h-6 bg-white/20"></div>
-              <a href="#" class="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">Sign In</a>
-              <a href="#" class="text-sm font-medium text-black bg-white hover:bg-white/90 transition-all duration-300 rounded-2xl px-6 py-2.5 shadow-lg shadow-white/20">Get Started</a>
-            </div>
+            <button id="close-login" class="p-2 rounded-xl hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
           </div>
-
-          <!-- Mobile Menu Button -->
-          <button class="lg:hidden p-2 hover:bg-white/10 rounded-2xl transition-colors duration-300" aria-label="Open menu">
-            <i data-lucide="menu" class="w-5 h-5"></i>
-          </button>
-        </nav>
+          <div class="space-y-4">
+            <a href="/auth/github/login" class="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-2xl border border-white/20 hover:border-white/40 bg-white/5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.35-1.76-1.35-1.76-1.1-.76.09-.75.09-.75 1.22.09 1.86 1.25 1.86 1.25 1.08 1.85 2.83 1.32 3.52 1.01.11-.78.42-1.32.76-1.63-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.4 1.25-3.24-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.24a11.5 11.5 0 0 1 6.01 0c2.28-1.56 3.29-1.24 3.29-1.24.66 1.65.25 2.87.12 3.17.78.84 1.25 1.92 1.25 3.24 0 4.63-2.8 5.65-5.48 5.95.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .5z"/></svg>
+              Continue with GitHub
+            </a>
+          </div>
+        </div>
       </div>
-    </header>
-
-    <div class="relative z-10">
-      <!-- Trading Page -->
-      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="trading">
-        <!-- Main Grid Layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-          <!-- Hero Content - Spans 5 columns -->
-          <div class="lg:col-span-5 animate-slide-in-left delay-300">
-            <div class="gradient-border rounded-3xl mb-8 inline-block" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3)); padding: 1px;">
-              <div class="bg-black rounded-3xl px-4 py-2">
-                <div class="flex items-center gap-2 text-sm font-medium">
-                  <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span class="text-white/80">Advanced Trading Platform</span>
-                </div>
-              </div>
-            </div>
-
-            <h1 class="sm:text-7xl xl:text-8xl leading-none text-6xl font-medium tracking-tighter mb-8">
-              <span class="block text-white">Trade crypto</span>
-              <span class="block" style="background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">like a pro</span>
-            </h1>
-
-            <p class="text-xl text-white/70 mb-10 max-w-lg leading-relaxed">
-              Access professional trading tools, real-time market data, and institutional-grade security for Bitcoin, Ethereum, and 200+ cryptocurrencies.
-            </p>
-
-            <div class="flex flex-col sm:flex-row gap-4 mb-16">
-              <button class="px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium rounded-3xl transition-all duration-300 shadow-xl shadow-indigo-500/25 transform hover:scale-105">Start Trading</button>
-              <button class="px-8 py-4 border border-white/20 hover:border-white/40 text-white font-medium rounded-3xl transition-all duration-300 backdrop-blur-sm" style="background: rgba(255, 255, 255, 0.05);">View Demo</button>
-            </div>
-
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-3 gap-8">
-              <div class="text-center lg:text-left">
-                <div class="text-3xl font-bold text-white mb-1">$24B+</div>
-                <div class="text-sm text-white/60">24h Volume</div>
-              </div>
-              <div class="text-center lg:text-left">
-                <div class="text-3xl font-bold text-white mb-1">150K+</div>
-                <div class="text-sm text-white/60">Active Traders</div>
-              </div>
-              <div class="text-center lg:text-left">
-                <div class="text-3xl font-bold text-white mb-1">200+</div>
-                <div class="text-sm text-white/60">Cryptocurrencies</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Trading Card - Spans 4 columns -->
-          <div class="lg:col-span-4 animate-fade-in-up delay-500">
-            <div class="rounded-3xl p-8 backdrop-blur-xl border border-white/20 shadow-2xl animate-float" style="background: rgba(255, 255, 255, 0.05); animation: float 6s ease-in-out infinite;">
-              <!-- Card Header -->
-              <div class="flex items-center justify-between mb-8">
-                <div>
-                  <h3 class="text-xl font-semibold text-white mb-1">Quick Trade</h3>
-                  <p class="text-sm text-white/60">Instant crypto exchange</p>
-                </div>
-                <div class="flex gap-2">
-                  <button class="p-3 hover:bg-white/10 rounded-2xl transition-colors duration-300" aria-label="Refresh">
-                    <i data-lucide="rotate-ccw" class="w-4 h-4 text-white/60"></i>
-                  </button>
-                  <button class="p-3 hover:bg-white/10 rounded-2xl transition-colors duration-300" aria-label="Settings">
-                    <i data-lucide="settings" class="w-4 h-4 text-white/60"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- From Section -->
-              <div class="mb-6">
-                <div class="flex items-center justify-between mb-3">
-                  <span class="text-sm font-medium text-white">From</span>
-                  <span class="text-sm text-white/60">Balance: 12.5847 BTC</span>
-                </div>
-                <div class="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
-                  <button class="flex items-center gap-3 px-4 py-3 bg-orange-500/20 hover:bg-orange-500/30 rounded-2xl transition-colors duration-300 border border-orange-500/30">
-                    <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                      <span class="text-xs font-bold text-white">₿</span>
-                    </div>
-                    <span class="text-sm font-medium text-white">BTC</span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-white/60"></i>
-                  </button>
-                  <div class="flex-1 text-right">
-                    <input type="text" value="0.5" class="w-full bg-transparent text-2xl font-semibold text-white text-right outline-none" />
-                    <p class="text-sm text-white/60 mt-1">≈ $21,450.00</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Swap Button -->
-              <div class="flex justify-center mb-6">
-                <button class="p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all duration-300 border border-white/20 backdrop-blur-sm transform hover:scale-110" aria-label="Swap">
-                  <i data-lucide="arrow-up-down" class="w-5 h-5 text-white"></i>
-                </button>
-              </div>
-
-              <!-- To Section -->
-              <div class="mb-8">
-                <div class="flex items-center justify-between mb-3">
-                  <span class="text-sm font-medium text-white">To</span>
-                  <span class="text-sm text-white/60">Balance: 245.92 ETH</span>
-                </div>
-                <div class="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
-                  <button class="flex items-center gap-3 px-4 py-3 bg-blue-500/20 hover:bg-blue-500/30 rounded-2xl transition-colors duration-300 border border-blue-500/30">
-                    <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                      <span class="text-xs font-bold text-white">Ξ</span>
-                    </div>
-                    <span class="text-sm font-medium text-white">ETH</span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-white/60"></i>
-                  </button>
-                  <div class="flex-1 text-right">
-                    <input type="text" value="12.847" class="w-full bg-transparent text-2xl font-semibold text-white text-right outline-none" />
-                    <p class="text-sm text-white/60 mt-1">≈ $21,380.50</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Trade Info -->
-              <div class="space-y-3 mb-8 p-4 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
-                <div class="flex justify-between text-sm">
-                  <span class="text-white/60">Exchange Rate</span>
-                  <span class="text-white font-medium">1 BTC = 25.694 ETH</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-white/60">Network Fee</span>
-                  <span class="text-white font-medium">~$12.50</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-white/60">Estimated Time</span>
-                  <span class="text-green-400 font-medium">~2 minutes</span>
-                </div>
-              </div>
-
-              <!-- Trade Button -->
-              <button class="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium rounded-2xl transition-all duration-300 shadow-xl shadow-indigo-500/25 transform hover:scale-[1.02]">Execute Trade</button>
-            </div>
-          </div>
-
-          <!-- Market Data - Spans 3 columns -->
-          <div class="lg:col-span-3 space-y-6 animate-slide-in-right delay-700">
-            <!-- Live Market Data -->
-            <div class="rounded-3xl p-6 backdrop-blur-xl border border-white/20" style="background: rgba(255, 255, 255, 0.05);">
-              <div class="flex items-center justify-between mb-6">
-                <h3 class="text-lg font-semibold text-white">Live Markets</h3>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span class="text-xs text-white/60">Real-time</span>
-                </div>
-              </div>
-              <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all duration-300 cursor-pointer group">
-                  <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span class="text-sm font-bold text-white">₿</span>
-                    </div>
-                    <div>
-                      <p class="font-medium text-white">BTC/USD</p>
-                      <p class="text-xs text-white/60">Bitcoin</p>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <p class="font-medium text-white">$44,084.92</p>
-                    <p class="text-xs text-green-400 flex items-center gap-1">
-                      <i data-lucide="trending-up" class="w-3 h-3"></i>
-                      +2.45%
-                    </p>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all duration-300 cursor-pointer group">
-                  <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-blue-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span class="text-sm font-bold text-white">Ξ</span>
-                    </div>
-                    <div>
-                      <p class="font-medium text-white">ETH/USD</p>
-                      <p class="text-xs text-white/60">Ethereum</p>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <p class="font-medium text-white">$1,616.18</p>
-                    <p class="text-xs text-red-400 flex items-center gap-1">
-                      <i data-lucide="trending-down" class="w-3 h-3"></i>
-                      -1.23%
-                    </p>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between p-4 hover:bg-white/5 rounded-2xl transition-all duration-300 cursor-pointer group">
-                  <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-purple-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span class="text-sm font-bold text-white">◎</span>
-                    </div>
-                    <div>
-                      <p class="font-medium text-white">SOL/USD</p>
-                      <p class="text-xs text-white/60">Solana</p>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <p class="font-medium text-white">$99.24</p>
-                    <p class="text-xs text-green-400 flex items-center gap-1">
-                      <i data-lucide="trending-up" class="w-3 h-3"></i>
-                      +5.67%
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Security Features -->
-            <div class="rounded-3xl p-6 backdrop-blur-xl border border-white/20" style="background: rgba(255, 255, 255, 0.05);">
-              <h3 class="text-lg font-semibold text-white mb-6">Security Features</h3>
-              <div class="space-y-4">
-                <div class="flex items-center gap-4 p-3 hover:bg-white/5 rounded-2xl transition-colors duration-300">
-                  <div class="w-10 h-10 bg-white/10 rounded-2xl flex items-center justify-center">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-white/80"></i>
-                  </div>
-                  <span class="text-sm text-white/80">Multi-signature wallets</span>
-                </div>
-                <div class="flex items-center gap-4 p-3 hover:bg-white/5 rounded-2xl transition-colors duration-300">
-                  <div class="w-10 h-10 bg-white/10 rounded-2xl flex items-center justify-center">
-                    <i data-lucide="key" class="w-4 h-4 text-white/80"></i>
-                  </div>
-                  <span class="text-sm text-white/80">Hardware security modules</span>
-                </div>
-                <div class="flex items-center gap-4 p-3 hover:bg-white/5 rounded-2xl transition-colors duration-300">
-                  <div class="w-10 h-10 bg-white/10 rounded-2xl flex items-center justify-center">
-                    <i data-lucide="lock" class="w-4 h-4 text-white/80"></i>
-                  </div>
-                  <span class="text-sm text-white/80">End-to-end encryption</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Feature Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up delay-800">
-          <div class="rounded-3xl p-8 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] group" style="background: rgba(255, 255, 255, 0.05);">
-            <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
-              <i data-lucide="bar-chart-3" class="w-6 h-6 text-white"></i>
-            </div>
-            <h3 class="text-2xl font-semibold text-white mb-4 tracking-tight">Advanced Analytics</h3>
-            <p class="text-white/70 leading-relaxed mb-8">Professional-grade charts, technical indicators, and market insights to make informed trading decisions.</p>
-            <div class="flex items-center gap-2 text-white font-medium hover:text-indigo-300 transition-colors duration-300 cursor-pointer">
-              Learn more
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </div>
-          </div>
-          <div class="rounded-3xl p-8 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] group" style="background: rgba(255, 255, 255, 0.05);">
-            <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
-              <i data-lucide="mic" class="w-6 h-6 text-white"></i>
-            </div>
-            <h3 class="text-2xl font-semibold text-white mb-4 tracking-tight">Voice Trading</h3>
-            <p class="text-white/70 leading-relaxed mb-8">Execute trades using voice commands with our AI-powered trading assistant for hands-free portfolio management.</p>
-            <div class="flex items-center gap-2 text-white font-medium hover:text-green-300 transition-colors duration-300 cursor-pointer">
-              Learn more
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </div>
-          </div>
-          <div class="rounded-3xl p-8 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] group" style="background: rgba(255, 255, 255, 0.05);">
-            <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
-              <i data-lucide="shield" class="w-6 h-6 text-white"></i>
-            </div>
-            <h3 class="text-2xl font-semibold text-white mb-4 tracking-tight">Bank-Grade Security</h3>
-            <p class="text-white/70 leading-relaxed mb-8">Your assets are protected by institutional-grade security measures including cold storage and insurance coverage.</p>
-            <div class="flex items-center gap-2 text-white font-medium hover:text-orange-300 transition-colors duration-300 cursor-pointer">
-              Learn more
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Markets Page -->
-      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="markets" hidden>
+      <!-- Home / Portfolio Overview -->
+      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="home">
         <div class="mb-12">
-          <h2 class="text-4xl font-semibold tracking-tight mb-3">Markets</h2>
-          <p class="text-white/70">Track prices, changes, and volumes across top cryptocurrencies.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <!-- market cards -->
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-orange-500 rounded-2xl flex items-center justify-center"><span class="text-sm font-bold">₿</span></div>
-                <div>
-                  <div class="font-semibold">BTC/USD</div>
-                  <div class="text-xs text-white/60">Bitcoin</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="font-semibold">$44,084.92</div>
-                <div class="text-xs text-green-400 flex items-center gap-1"><i data-lucide="trending-up" class="w-3 h-3"></i> +2.45%</div>
+          <div class="gradient-border rounded-3xl mb-6 inline-block" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3)); padding: 1px;">
+            <div class="bg-black rounded-3xl px-4 py-2">
+              <div class="flex items-center gap-2 text-sm font-medium">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span class="text-white/80">Portfolio Overview</span>
               </div>
             </div>
           </div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-500 rounded-2xl flex items-center justify-center"><span class="text-sm font-bold">Ξ</span></div>
-                <div>
-                  <div class="font-semibold">ETH/USD</div>
-                  <div class="text-xs text-white/60">Ethereum</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="font-semibold">$1,616.18</div>
-                <div class="text-xs text-red-400 flex items-center gap-1"><i data-lucide="trending-down" class="w-3 h-3"></i> -1.23%</div>
-              </div>
-            </div>
-          </div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-purple-500 rounded-2xl flex items-center justify-center"><span class="text-sm font-bold">◎</span></div>
-                <div>
-                  <div class="font-semibold">SOL/USD</div>
-                  <div class="text-xs text-white/60">Solana</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="font-semibold">$99.24</div>
-                <div class="text-xs text-green-400 flex items-center gap-1"><i data-lucide="trending-up" class="w-3 h-3"></i> +5.67%</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <h1 class="text-5xl sm:text-6xl xl:text-7xl leading-tight font-semibold tracking-tight mb-6">
+            <span class="block">Build. Ship.</span>
+            <span class="block" style="background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent;">Explore Projects</span>
+          </h1>
+          <p class="text-white/70 max-w-2xl mb-8">Discover open-source work from GitHub and curated projects featured on this site. Use search to quickly find what you’re looking for.</p>
 
-      <!-- Analytics Page -->
-      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="analytics" hidden>
+          <div class="flex flex-col sm:flex-row gap-4 mb-12">
+            <a id="github-link" href="#" target="_blank" rel="noopener" class="px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-3xl font-medium shadow-xl shadow-indigo-500/25 inline-flex items-center gap-2">
+              <i data-lucide="github" class="w-5 h-5"></i>
+              View GitHub
+            </a>
+            <a href="#/contact" data-route class="px-8 py-3.5 border border-white/20 hover:border-white/40 rounded-3xl backdrop-blur-sm inline-flex items-center gap-2" style="background: rgba(255,255,255,0.05)">
+              <i data-lucide="send" class="w-5 h-5"></i>
+              Contact Me
+            </a>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+            <div class="rounded-2xl border border-white/15 bg-white/5 p-6 text-center backdrop-blur-xl">
+              <div class="text-3xl font-bold">30+</div>
+              <div class="text-white/60 text-sm">Public Repos</div>
+            </div>
+            <div class="rounded-2xl border border-white/15 bg-white/5 p-6 text-center backdrop-blur-xl">
+              <div class="text-3xl font-bold">12</div>
+              <div class="text-white/60 text-sm">Featured Projects</div>
+            </div>
+            <div class="rounded-2xl border border-white/15 bg-white/5 p-6 text-center backdrop-blur-xl">
+              <div class="text-3xl font-bold">∞</div>
+              <div class="text-white/60 text-sm">Ideas Brewing</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search / Controls -->
+        <div class="mb-10 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+          <input id="search-all" type="search" placeholder="Search projects, repos, tags..." class="w-full md:w-1/2 rounded-2xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:border-white/40" />
+          <div id="me-badge" class="hidden items-center gap-2 px-3 py-2 rounded-2xl bg-white/10 border border-white/20 text-sm">
+            <i data-lucide="shield" class="w-4 h-4"></i>
+            <span>Editing enabled</span>
+            <a href="/logout" class="ml-2 underline hover:no-underline">Logout</a>
+          </div>
+        </div>
+
+        <!-- Graphic Feature Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 animate-fade-in-up delay-800">
+    <div class="rounded-3xl p-8 backdrop-blur-2xl border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02]"
+      style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 80px rgba(99,102,241,0.25), 0 14px 44px rgba(168,85,247,0.18);">
+            <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mb-8">
+              <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3">Data-Driven</h3>
+            <p class="text-white/70">Dashboards, charts, and visualizations to make insights pop.</p>
+          </div>
+    <div class="rounded-3xl p-8 backdrop-blur-2xl border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02]" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 80px rgba(16,185,129,0.22), 0 14px 44px rgba(13,148,136,0.16);">
+            <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mb-8">
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3">Polished UI</h3>
+            <p class="text-white/70">Glassmorphism, motion, and modern aesthetics done right.</p>
+          </div>
+    <div class="rounded-3xl p-8 backdrop-blur-2xl border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02]" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 80px rgba(249,115,22,0.22), 0 14px 44px rgba(236,72,153,0.18);">
+            <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-pink-600 rounded-3xl flex items-center justify-center mb-8">
+              <i data-lucide="globe" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-2xl font-semibold mb-3">Web & APIs</h3>
+            <p class="text-white/70">Full-stack builds with solid APIs and strong UX.</p>
+          </div>
+        </div>
+
+        <!-- GitHub Repos -->
         <div class="mb-12">
-          <h2 class="text-4xl font-semibold tracking-tight mb-3">Analytics</h2>
-          <p class="text-white/70">Insights, indicators, and performance metrics.</p>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-semibold">GitHub Repositories</h2>
+            <!-- Link above in hero acts as primary GitHub CTA -->
+          </div>
+          <div id="github-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl">
-            <div class="flex items-center gap-3 mb-4">
-              <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-              <div class="font-semibold">Price Performance</div>
+
+  <!-- Site Projects with inline editor when authed -->
+        <div>
+          <h2 class="text-2xl font-semibold mb-4">Featured Projects on this Site</h2>
+          <form id="inline-form" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 bg-white/5 border border-white/15 rounded-2xl p-4 mb-8">
+            <input class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="name" placeholder="Name" required />
+            <input class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="id" placeholder="ID (optional for create)" />
+            <input class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="repoUrl" placeholder="Repo URL" />
+            <input class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="websiteUrl" placeholder="Website URL" />
+            <input class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="tags" placeholder="Tags (comma or space separated)" />
+            <select class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="type">
+              <option value="web">Web</option>
+              <option value="lib">Library</option>
+              <option value="tool">Tool</option>
+              <option value="other">Other</option>
+            </select>
+            <select class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="status">
+              <option value="active">Active</option>
+              <option value="archived">Archived</option>
+            </select>
+            <input class="rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="image" placeholder="Image URL (optional)" />
+            <textarea class="md:col-span-2 rounded-2xl bg-white/10 border border-white/20 px-3 py-2" name="description" placeholder="Description"></textarea>
+            <label class="flex items-center gap-2"><input type="checkbox" name="featured" class="accent-indigo-500" /> Featured</label>
+            <div class="md:col-span-2 flex items-center gap-3">
+              <button id="create-btn" class="px-3 py-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600">Create</button>
+              <button id="update-btn" class="px-3 py-2 rounded-2xl bg-white/10 border border-white/20" type="button">Update by ID</button>
+              <button id="delete-btn" class="px-3 py-2 rounded-2xl bg-red-600/80" type="button">Delete by ID</button>
             </div>
-            <p class="text-white/70 text-sm">View monthly price changes, volatility, and momentum.</p>
-          </div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl">
-            <div class="flex items-center gap-3 mb-4">
-              <i data-lucide="shield" class="w-5 h-5"></i>
-              <div class="font-semibold">Risk Overview</div>
+          </form>
+          <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
+
+        <!-- Quick Stats (general info) -->
+        <div class="mt-16">
+          <h2 class="text-2xl font-semibold mb-4">Stats</h2>
+          <div id="stats-cards" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+        </div>
+
+        <!-- Informative API graphics (GitHub stats) -->
+        <div class="mt-16">
+          <h2 class="text-2xl font-semibold mb-4">Activity</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
+              <h3 class="font-semibold mb-2">Languages (Top repos)</h3>
+              <canvas id="lang-chart" height="140"></canvas>
             </div>
-            <p class="text-white/70 text-sm">Sharpe ratio, drawdowns, and VaR summaries.</p>
-          </div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl">
-            <div class="flex items-center gap-3 mb-4">
-              <i data-lucide="key" class="w-5 h-5"></i>
-              <div class="font-semibold">On-chain Signals</div>
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold">Stars per Repo</h3>
+                <span class="text-xs text-white/60">Click to view all</span>
+              </div>
+              <canvas id="stars-chart" height="140" style="cursor: pointer;"></canvas>
             </div>
-            <p class="text-white/70 text-sm">Whale flows, supply dynamics, and network activity.</p>
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
+              <h3 class="font-semibold mb-2">Commits (last 90d)</h3>
+              <canvas id="commits-chart" height="140"></canvas>
+            </div>
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
+              <h3 class="font-semibold mb-2">Top Pages (Views)</h3>
+              <canvas id="pages-chart" height="140"></canvas>
+            </div>
           </div>
         </div>
+      
+      <!-- Repo list modal -->
+      <div id="repo-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6">
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative w-full max-w-3xl rounded-3xl border border-white/20 p-6 max-h-[80vh] overflow-auto" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(18px); box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold">Repositories</h3>
+            <button id="close-repo-modal" class="p-2 rounded-xl hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
+          </div>
+          <input id="repo-search" type="search" placeholder="Search repositories..." class="w-full mb-4 rounded-2xl bg-white/10 border border-white/20 px-3 py-2 outline-none focus:border-white/40" />
+          <div id="repo-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+      </div>
       </section>
 
-      <!-- Learn Page -->
-      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="learn" hidden>
-        <div class="mb-12">
-          <h2 class="text-4xl font-semibold tracking-tight mb-3">Learn</h2>
-          <p class="text-white/70">Guides and tutorials to level up your trading.</p>
+      <!-- Projects Page (placeholder) -->
+      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="projects" hidden>
+        <div class="mb-6">
+          <h2 class="text-4xl font-semibold tracking-tight mb-3">Projects</h2>
+          <p class="text-white/70">Browse all curated site projects in one place.</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <a class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors" href="#">
-            <div class="font-semibold mb-2">Spot vs Futures</div>
-            <p class="text-white/70 text-sm">Understand core differences and risks.</p>
-          </a>
-          <a class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors" href="#">
-            <div class="font-semibold mb-2">Intro to Options</div>
-            <p class="text-white/70 text-sm">Calls, puts, and strategies explained simply.</p>
-          </a>
-          <a class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors" href="#">
-            <div class="font-semibold mb-2">Risk Management</div>
-            <p class="text-white/70 text-sm">Position sizing and stop-loss basics.</p>
-          </a>
-        </div>
+        <p class="text-white/60">Coming soon...</p>
       </section>
 
-      <!-- Products Page -->
-      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="products" hidden>
-        <div class="mb-12">
-          <h2 class="text-4xl font-semibold tracking-tight mb-3">Products</h2>
-          <p class="text-white/70">Explore what you can trade with CryptoVault.</p>
+      <!-- About Page (placeholder) -->
+      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="about" hidden>
+        <div class="mb-6">
+          <h2 class="text-4xl font-semibold tracking-tight mb-3">About</h2>
+          <p class="text-white/70">A short bio and the tools I love.</p>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl"><div class="font-semibold mb-2">Spot Trading</div><p class="text-white/70 text-sm">Buy and sell crypto directly.</p></div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl"><div class="font-semibold mb-2">Futures</div><p class="text-white/70 text-sm">Long/short with leverage.</p></div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl"><div class="font-semibold mb-2">Options</div><p class="text-white/70 text-sm">Strategic derivatives.</p></div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl"><div class="font-semibold mb-2">Margin</div><p class="text-white/70 text-sm">Borrow to amplify positions.</p></div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl"><div class="font-semibold mb-2">Staking</div><p class="text-white/70 text-sm">Earn rewards on holdings.</p></div>
-          <div class="p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl"><div class="font-semibold mb-2">NFTs</div><p class="text-white/70 text-sm">Collect and trade digital assets.</p></div>
-        </div>
+        <p class="text-white/60">Coming soon...</p>
       </section>
 
-      <!-- Footer Section -->
-      <footer class="border-t border-white/10 mt-32">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <!-- Company Info -->
-            <div class="lg:col-span-1">
-              <a href="#" class="flex items-center gap-3 text-lg font-semibold mb-6">
-                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                    <path d="m2 17 10 5 10-5"></path>
-                    <path d="m2 12 10 5 10-5"></path>
-                  </svg>
-                </div>
-                <span class="text-white font-semibold">CryptoVault</span>
+      <!-- Blog Page (placeholder) -->
+      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="blog" hidden>
+        <div class="mb-6">
+          <h2 class="text-4xl font-semibold tracking-tight mb-3">Blog</h2>
+          <p class="text-white/70">Notes on projects, code, and ideas.</p>
+        </div>
+        <p class="text-white/60">Coming soon...</p>
+      </section>
+
+      <!-- Contact Page (placeholder) -->
+      <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="contact" hidden>
+        <div class="mb-6">
+          <h2 class="text-4xl font-semibold tracking-tight mb-3">Contact</h2>
+          <p class="text-white/70">Get in touch for collaborations or questions.</p>
+        </div>
+        <p class="text-white/60">Coming soon...</p>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 mt-32">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div class="lg:col-span-1">
+            <a href="#/home" class="flex items-center gap-3 text-lg font-semibold mb-6">
+              <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="m2 17 10 5 10-5"></path>
+                  <path d="m2 12 10 5 10-5"></path>
+                </svg>
+              </div>
+              <span class="text-white font-semibold">Portfolio</span>
+            </a>
+            <p class="text-white/60 text-sm leading-relaxed mb-8">Personal portfolio to explore projects, open-source work, and experiments.</p>
+            <div class="flex gap-4">
+              <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="Twitter">
+                <i data-lucide="twitter" class="w-4 h-4 text-white/70"></i>
               </a>
-              <p class="text-white/60 text-sm leading-relaxed mb-8">The most advanced cryptocurrency trading platform built for professionals and institutions worldwide.</p>
-              <div class="flex gap-4">
-                <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="Twitter">
-                  <i data-lucide="twitter" class="w-4 h-4 text-white/70"></i>
-                </a>
-                <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="Messages">
-                  <i data-lucide="message-circle" class="w-4 h-4 text-white/70"></i>
-                </a>
-                <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="Community">
-                  <i data-lucide="users" class="w-4 h-4 text-white/70"></i>
-                </a>
-              </div>
-            </div>
-
-            <!-- Quick Links -->
-            <div>
-              <h4 class="text-white font-semibold mb-6">Platform</h4>
-              <ul class="space-y-4 text-sm">
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Spot Trading</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Futures Trading</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Options Trading</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Margin Trading</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">NFT Marketplace</a></li>
-              </ul>
-            </div>
-
-            <!-- Support -->
-            <div>
-              <h4 class="text-white font-semibold mb-6">Support</h4>
-              <ul class="space-y-4 text-sm">
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Help Center</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">API Documentation</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Trading Guides</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Contact Support</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">System Status</a></li>
-              </ul>
-            </div>
-
-            <!-- Company -->
-            <div>
-              <h4 class="text-white font-semibold mb-6">Company</h4>
-              <ul class="space-y-4 text-sm">
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">About Us</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Careers</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Press Kit</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Privacy Policy</a></li>
-                <li><a href="#" class="text-white/60 hover:text-white transition-colors duration-300">Terms of Service</a></li>
-              </ul>
+              <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="Messages">
+                <i data-lucide="message-circle" class="w-4 h-4 text-white/70"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="GitHub">
+                <i data-lucide="github" class="w-4 h-4 text-white/70"></i>
+              </a>
             </div>
           </div>
 
-          <!-- Bottom Bar -->
-          <div class="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <p class="text-white/60 text-sm">© <span id="year">2025</span> CryptoVault. All rights reserved.</p>
-            <div class="flex items-center gap-6 text-sm text-white/60">
-              <span>🌍 English</span>
-              <span>💱 USD</span>
-            </div>
+          <div>
+            <h4 class="text-white font-semibold mb-6">Navigate</h4>
+            <ul class="space-y-4 text-sm">
+              <li><a href="#/home" class="text-white/60 hover:text-white">Home</a></li>
+              <li><a href="#/projects" class="text-white/60 hover:text-white">Projects</a></li>
+              <li><a href="#/about" class="text-white/60 hover:text-white">About</a></li>
+              <li><a href="#/blog" class="text-white/60 hover:text-white">Blog</a></li>
+              <li><a href="#/contact" class="text-white/60 hover:text-white">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-white font-semibold mb-6">Resources</h4>
+            <ul class="space-y-4 text-sm">
+              <li><a id="github-link-footer" href="#" target="_blank" rel="noopener" class="text-white/60 hover:text-white">GitHub</a></li>
+              <li><a href="/logout" class="text-white/60 hover:text-white">Logout</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-white font-semibold mb-6">Contact</h4>
+            <ul class="space-y-4 text-sm text-white/60">
+              <li>Email: your@email.com</li>
+              <li>Location: Earth</li>
+            </ul>
           </div>
         </div>
-      </footer>
-    </div>
+
+        <div class="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p class="text-white/60 text-sm">© <span id="year">2025</span> Portfolio. All rights reserved.</p>
+          <div class="flex items-center gap-6 text-sm text-white/60">
+            <span>🌍 English</span>
+            <span>💱 USD</span>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
   </html>

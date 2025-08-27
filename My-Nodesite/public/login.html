@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in • Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+      @keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-10px);} }
+    </style>
+  </head>
+  <body class="bg-black text-white min-h-screen overflow-hidden">
+    <!-- background circles -->
+    <div class="fixed inset-0 -z-10">
+      <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: .8s"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.06),transparent_50%)]"></div>
+    </div>
+
+    <main class="grid place-items-center min-h-screen px-6">
+      <div class="w-full max-w-md">
+        <div class="mb-8 flex items-center justify-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl grid place-items-center shadow-lg shadow-indigo-500/25">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="m2 17 10 5 10-5"></path>
+              <path d="m2 12 10 5 10-5"></path>
+            </svg>
+          </div>
+          <div class="text-2xl font-semibold">Portfolio</div>
+        </div>
+
+        <div class="rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl p-6 shadow-2xl" style="animation: float 6s ease-in-out infinite;">
+          <h1 class="text-xl font-semibold mb-2">Welcome back</h1>
+          <p class="text-white/70 text-sm mb-6">Sign in to continue to your dashboard</p>
+
+          <form method="POST" action="/login" class="space-y-4">
+            <div>
+              <label for="username" class="block text-sm mb-1">Email or Username</label>
+              <input required id="username" name="username" type="text" class="w-full rounded-2xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:border-white/40" placeholder="you@example.com" />
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label for="password" class="block text-sm">Password</label>
+                <a href="#" class="text-xs text-white/70 hover:text-white">Forgot?</a>
+              </div>
+              <input required id="password" name="password" type="password" class="w-full rounded-2xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:border-white/40" placeholder="••••••••" />
+            </div>
+            <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 font-medium shadow-lg shadow-indigo-500/25 transition-transform hover:scale-[1.01]">Sign in</button>
+          </form>
+
+          <p class="text-center text-sm text-white/70 mt-6">Don't have an account? <a class="text-white hover:underline" href="#">Create one</a></p>
+        </div>
+
+        <p class="text-center text-xs text-white/50 mt-6">By signing in you agree to our <a class="underline" href="#">Terms</a> and <a class="underline" href="#">Privacy</a>.</p>
+      </div>
+    </main>
+  </body>
+</html>
