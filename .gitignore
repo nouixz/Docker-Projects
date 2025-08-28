@@ -30,3 +30,6 @@ Thumbs.db
 
 # Misc
 *.swp
+
+# Postgres-Daten (Bind-Mount)
+My-Nodesite/data/postgres/

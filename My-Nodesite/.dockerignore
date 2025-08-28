@@ -9,3 +9,13 @@ pnpm-debug.log*
 *.swp
 npm-cache
 .cache
+
+# Lokale DB-Daten niemals in den Build-Kontext senden
+data/postgres
+data/postgres/**
+
+node_modules
+npm-debug.log
+.git
+data/postgres
+data/postgres/**

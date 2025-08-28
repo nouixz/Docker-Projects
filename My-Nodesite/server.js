@@ -9,262 +9,97 @@ const { Client } = (() => {
 const path = require("path");
 const fsp = fs.promises;
 
-const PORT = process.env.PORT || 3000;
-const PUBLIC_DIR = path.join(__dirname, "public");
-const DATA_DIR = path.join(__dirname, "data");
-const PROJECTS_FILE = path.join(DATA_DIR, "projects.json");
-const DATABASE_URL = process.env.DATABASE_URL || "";
-let pgClient = null;
+// Env laden (nur wenn lokal/.env vorhanden)
+require('dotenv').config();
 
-// OAuth and session config (set via environment variables)
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || "";
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || "";
-const ADMIN_GITHUB_USER = (process.env.ADMIN_GITHUB_USER || "").toLowerCase();
-const SESSION_TTL_SECONDS = Number(process.env.SESSION_TTL_SECONDS || 60 * 60 * 8); // 8h default
-const USER_AGENT = process.env.USER_AGENT || "My-Nodesite/1.0";
-// In-memory session and state stores (sufficient for single-instance, demo-scale)
-const sessions = new Map(); // sid -> { user, exp }
-const oauthStates = new Set();
-
-const MIME_TYPES = {
-  ".html": "text/html; charset=utf-8",
-  ".css": "text/css; charset=utf-8",
-  ".js": "application/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8",
-  ".svg": "image/svg+xml",
-  ".png": "image/png",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".ico": "image/x-icon",
-};
-
-function safeJoin(base, target) {
-  const resolved = path.join(base, target);
-  if (!resolved.startsWith(base)) return null; // prevent path traversal
-  return resolved;
-}
-
-function parseCookies(req) {
-  const header = req.headers["cookie"] || "";
-  return header.split(/;\s*/).reduce((acc, cur) => {
-    const [k, v] = cur.split("=");
-    if (k) acc[k.trim()] = decodeURIComponent(v || "");
-    return acc;
-  }, {});
-}
-
-function redirect(res, location, cookies = []) {
-  res.writeHead(302, { Location: location, "Set-Cookie": cookies });
-  res.end();
-}
-
-function serveLogin(res) {
-  const loginPath = path.join(PUBLIC_DIR, "login.html");
-  fs.readFile(loginPath, (e, data) => {
-    if (e) {
-      res.writeHead(500, { "Content-Type": "text/plain" });
-      return res.end("Login page missing");
+// Fallback-DB-Init bereitstellen, falls im Code initDatabase() aufgerufen wird
+let initDatabase = global.initDatabase;
+if (typeof initDatabase !== 'function') {
+  const useDb = process.env.DATABASE_URL || process.env.POSTGRES_HOST;
+  initDatabase = async () => {
+    if (!useDb) {
+      console.warn('[db] Keine DB-Config gefunden. Überspringe DB-Init.');
+      return;
     }
-    res.writeHead(200, { "Content-Type": MIME_TYPES[".html"] });
-    res.end(data);
-  });
-}
+    const { Client } = require('pg');
+    const connStr =
+      process.env.DATABASE_URL ||
+      `postgres://${process.env.POSTGRES_USER || 'postgres'}:${process.env.POSTGRES_PASSWORD || ''}` +
+      `@${process.env.POSTGRES_HOST || 'localhost'}:${process.env.POSTGRES_PORT || 5432}` +
+      `/${process.env.POSTGRES_DB || 'postgres'}`;
 
-async function ensureDataFile() {
-  try {
-    await fsp.mkdir(DATA_DIR, { recursive: true });
-    await fsp.access(PROJECTS_FILE, fs.constants.F_OK);
-  } catch {
-    const now = new Date().toISOString();
-    const seed = [
-      {
-        id: "sample-website",
-        name: "Sample Portfolio Site",
-        description: "A demo personal website template with Tailwind and glass UI.",
-        repoUrl: "https://github.com/you/portfolio",
-        websiteUrl: "https://example.com",
-        type: "web",
-        tags: ["tailwind", "vanilla", "ui"],
-        status: "active",
-        createdAt: now,
-        updatedAt: now,
-        featured: true
-      }
-    ];
-    await fsp.writeFile(PROJECTS_FILE, JSON.stringify(seed, null, 2), "utf8");
-  }
-}
-
-async function initDatabase() {
-  if (!DATABASE_URL || !Client) return false;
-  if (!pgClient) {
-    pgClient = new Client({ connectionString: DATABASE_URL });
-    await pgClient.connect();
-  }
-  await pgClient.query(`
-    create table if not exists projects (
-      id text primary key,
-      name text not null,
-      description text default '',
-      repo_url text default '',
-      website_url text default '',
-      type text default 'other',
-      tags text default '',
-      status text default 'active',
-      featured boolean default false,
-      image text default '',
-      created_at timestamptz default now(),
-      updated_at timestamptz default now()
-    );
-  `);
-  await pgClient.query(`
-    create table if not exists metrics_daily (
-      day date not null,
-      page text not null,
-      views integer not null default 0,
-      uniques integer not null default 0,
-      primary key (day, page)
-    );
-  `);
-  await pgClient.query(`
-    create table if not exists metrics_uniques (
-      day date not null,
-      page text not null,
-      vid text not null,
-      primary key (day, page, vid)
-    );
-  `);
-  return true;
-}
-
-async function readProjects() {
-  if (pgClient) {
-    const { rows } = await pgClient.query('select id, name, description, repo_url as "repoUrl", website_url as "websiteUrl", type, status, featured, image, created_at as "createdAt", updated_at as "updatedAt", tags from projects order by created_at desc');
-    return rows.map(r => ({ ...r, tags: r.tags ? r.tags.split(/[,\s]+/).filter(Boolean) : [] }));
-  }
-  await ensureDataFile();
-  const text = await fsp.readFile(PROJECTS_FILE, 'utf8');
-  return JSON.parse(text || '[]');
-}
-
-async function writeProjects(list) {
-  if (pgClient) {
-    // Not used with SQL path
-    return;
-  }
-  await fsp.writeFile(PROJECTS_FILE, JSON.stringify(list, null, 2), 'utf8');
-}
-
-function json(res, code, data) {
-  res.writeHead(code, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" });
-  res.end(JSON.stringify(data));
-}
-
-function parseBody(req) {
-  return new Promise((resolve, reject) => {
-    let body = "";
-    req.on("data", (chunk) => { body += chunk; if (body.length > 5e6) { reject(new Error("Body too large")); req.destroy(); } });
-    req.on("end", () => {
-      const type = req.headers["content-type"] || "";
-      try {
-        if (type.includes("application/json")) {
-          resolve(JSON.parse(body || "{}"));
-        } else if (type.includes("application/x-www-form-urlencoded")) {
-          resolve(Object.fromEntries(new URLSearchParams(body)));
-        } else {
-          resolve({ raw: body });
-        }
-      } catch (e) { reject(e); }
-    });
-  });
-}
-
-// --- Simple session helpers ---
-function makeSid() {
-  return crypto.randomBytes(16).toString("hex");
-}
-function cookie(name, val, opts = {}) {
-  const parts = [
-    `${name}=${encodeURIComponent(val)}`,
-    "Path=/",
-    "HttpOnly",
-    "SameSite=Lax",
-  ];
-  if (opts.maxAge) parts.push(`Max-Age=${opts.maxAge}`);
-  // Don't set Secure by default to allow local http; enable via proxy/https in production
-  return parts.join("; ");
-}
-function getSession(req) {
-  const cookies = parseCookies(req);
-  if (cookies.sid) {
-    const s = sessions.get(cookies.sid);
-    if (s && s.exp > Date.now()) return s;
-  }
-  // Legacy fallback (simple password form)
-  if (cookies.session === "1") return { user: { provider: "local", name: "admin" }, legacy: true };
-  return null;
-}
-
-// --- Minimal HTTPS JSON helpers ---
-function httpsPostJSON(host, pathName, payload, headers = {}) {
-  const body = JSON.stringify(payload);
-  const options = {
-    host,
-    method: "POST",
-    path: pathName,
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "Content-Length": Buffer.byteLength(body),
-      "User-Agent": USER_AGENT,
-      ...headers,
-    },
+    const client = new Client({ connectionString: connStr });
+    try {
+      await client.connect();
+      await client.query('SELECT 1');
+      console.log('[db] Verbindung erfolgreich.');
+    } catch (err) {
+      console.error('[db] Verbindung fehlgeschlagen:', err.message);
+    } finally {
+      try { await client.end(); } catch {}
+    }
   };
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = "";
-      res.on("data", (d) => (data += d));
-      res.on("end", () => {
-        try {
-          const json = JSON.parse(data || "{}");
-          resolve(json);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
-    req.on("error", reject);
-    req.write(body);
-    req.end();
-  });
 }
-function httpsGetJSON(host, pathName, headers = {}) {
-  const options = {
-    host,
-    method: "GET",
-    path: pathName,
-    headers: {
-      "Accept": "application/json",
-      "User-Agent": USER_AGENT,
-      ...headers,
+
+// Bestehende app nutzen oder neue erstellen
+const app = typeof module !== 'undefined' && module.exports?.app ? module.exports.app : express();
+
+app.set('trust proxy', true);
+
+const PORT = process.env.PORT || 3000;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
+
+// Akzeptiere beide ENV-Namen
+const CALLBACK_URL =
+  process.env.GITHUB_CALLBACK_URL ||
+  process.env.OAUTH_REDIRECT_URI ||
+  `${BASE_URL}/auth/github/callback`;
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'change_me',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { sameSite: 'lax', secure: false }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+  passport.use(new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: CALLBACK_URL,
+      scope: ['read:user', 'user:email']
     },
-  };
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = "";
-      res.on("data", (d) => (data += d));
-      res.on("end", () => {
-        try {
-          const json = JSON.parse(data || "{}");
-          resolve(json);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
-    req.on("error", reject);
-    req.end();
+    (accessToken, refreshToken, profile, done) => {
+      const user = {
+        id: profile.id,
+        username: profile.username,
+        displayName: profile.displayName,
+        avatar: profile.photos?.[0]?.value
+      };
+      done(null, user);
+    }
+  ));
+  passport.serializeUser((user, done) => done(null, user));
+  passport.deserializeUser((obj, done) => done(null, obj));
+
+  app.get('/auth/github', passport.authenticate('github'));
+  app.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/login.html' }),
+    (req, res) => res.redirect('/')
+  );
+  app.post('/auth/logout', (req, res) => {
+    req.logout(() => req.session.destroy(() => res.status(204).end()));
   });
+  app.get('/api/me', (req, res) => {
+    if (!req.user) return res.status(401).json({ authenticated: false });
+    res.json({ authenticated: true, user: req.user });
+  });
+} else {
+  console.warn('GITHUB_CLIENT_ID/SECRET fehlen. GitHub-Login deaktiviert.');
 }
 
 // Boot DB if configured
@@ -575,6 +410,4 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+server.listen(PORT, '0.0.0.0', () => console.log(`Server läuft auf ${BASE_URL}`));
