@@ -84,7 +84,7 @@
 
   function cardProject(p) {
     return `
-      <div class="rounded-3xl p-6 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all duration-300" style="background: rgba(255,255,255,0.05);">
+      <div class="rounded-3xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 card">
         <div class="flex items-start justify-between gap-3">
           <div>
             <div class="text-lg font-semibold">${p.name}</div>
@@ -108,7 +108,7 @@
     const topics = (r.topics || []).slice(0, 5);
     const lang = r.language ? `<span class=\"text-xs text-white/60\"> • ${r.language}</span>` : '';
     return `
-      <a class="rounded-3xl p-6 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all duration-300 block" style="background: rgba(255,255,255,0.05);" href="${r.html_url}" target="_blank" rel="noopener">
+  <a class="rounded-3xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 block card" href="${r.html_url}" target="_blank" rel="noopener">
         <div class="flex items-center justify-between mb-1">
           <div class="text-lg font-semibold truncate">${r.name}</div>
           <div class="text-xs text-white/60">★ ${r.stargazers_count || 0}</div>
@@ -500,11 +500,18 @@
       option.classList.toggle('active', isActive);
     });
 
-    // Save to localStorage
+  // Save to localStorage
     localStorage.setItem(THEME_KEY, themeName);
 
     // Re-initialize icons to ensure they display correctly
-    setTimeout(initIcons, 100);
+  setTimeout(initIcons, 100);
+
+  // Trigger site-wide theme transition animation
+  const html = document.documentElement;
+  html.classList.remove('theme-pulse');
+  // Force reflow to restart animation
+  void html.offsetWidth;
+  html.classList.add('theme-pulse');
   }
 
   // Toggle theme dropdown

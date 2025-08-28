@@ -14,9 +14,9 @@
     <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script defer src="/script.js"></script>
   </head>
-  <body class="min-h-screen antialiased overflow-x-hidden" style="color: var(--text); background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));">
+  <body class="min-h-screen antialiased overflow-x-hidden theme-animate">
     <!-- Header / Nav -->
-    <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-white/10" style="background: var(--glass);">
+  <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-white/10 theme-animate bg-glass border-theme">
       <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
         <a href="#/home" data-route class="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/10 border border-white/20">
           <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -35,7 +35,7 @@
           
           <!-- Theme Selector -->
           <div class="theme-selector ml-2">
-            <button id="theme-button" class="theme-button flex items-center gap-2">
+            <button id="theme-button" class="theme-button flex items-center gap-2 theme-animate">
               <i data-lucide="palette" class="w-4 h-4"></i>
               <span id="current-theme-name">Glassmorphism</span>
             </button>
@@ -93,19 +93,19 @@
       <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse theme-blob-2" style="animation-delay: 1s"></div>
       <div class="absolute top-1/2 left-0 w-64 h-64 bg-emerald-400/15 rounded-full blur-2xl animate-pulse theme-blob-3" style="animation-delay: 2s"></div>
       <div class="absolute bottom-1/3 right-0 w-80 h-80 bg-cyan-400/15 rounded-full blur-2xl animate-pulse theme-blob-4" style="animation-delay: 3s"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_50%)] theme-gradient"></div>
+  <div class="absolute inset-0 theme-gradient"></div>
     </div>
 
     <!-- Optional 3D Scene Background (Spline) -->
-    <div class="fixed inset-0 z-0 pointer-events-none">
+  <div class="fixed inset-0 z-0 pointer-events-none theme-animate theme-spline">
       <iframe src="https://my.spline.design/aidatamodelinteraction-mdTL3FktFVHgDvFr5TKtnYDV/" frameborder="0" width="100%" height="100%"></iframe>
     </div>
 
     <main class="relative z-10">
       <!-- Login Modal -->
-      <div id="login-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6">
+  <div id="login-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6 theme-animate">
         <div class="absolute inset-0 bg-black/70"></div>
-        <div class="relative w-full max-w-md rounded-3xl border border-white/20 p-6" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(18px); box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);">
+  <div class="relative w-full max-w-md rounded-3xl border border-white/20 p-6 panel">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl grid place-items-center">
@@ -130,26 +130,26 @@
       <!-- Home / Portfolio Overview -->
       <section class="max-w-7xl mx-auto px-6 lg:px-8 py-20" data-page="home">
         <div class="mb-12">
-          <div class="gradient-border rounded-3xl mb-6 inline-block" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3)); padding: 1px;">
-            <div class="bg-black rounded-3xl px-4 py-2">
+          <div class="gradient-border rounded-3xl mb-6 inline-block" style="padding: 1px;">
+            <div class="bg-black rounded-3xl px-4 py-2 chip">
               <div class="flex items-center gap-2 text-sm font-medium">
                 <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span class="text-white/80">Portfolio Overview</span>
               </div>
             </div>
           </div>
-          <h1 class="text-5xl sm:text-6xl xl:text-7xl leading-tight font-semibold tracking-tight mb-6">
+          <h1 class="text-5xl sm:text-6xl xl:text-7xl leading-tight font-semibold tracking-tight mb-6 theme-animate">
             <span class="block">Build. Ship.</span>
-            <span class="block" style="background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent;">Explore Projects</span>
+            <span class="block headline-gradient">Explore Projects</span>
           </h1>
           <p class="text-white/70 max-w-2xl mb-8">Discover open-source work from GitHub and curated projects featured on this site. Use search to quickly find what you’re looking for.</p>
 
           <div class="flex flex-col sm:flex-row gap-4 mb-12">
-            <a id="github-link" href="#" target="_blank" rel="noopener" class="px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-3xl font-medium shadow-xl shadow-indigo-500/25 inline-flex items-center gap-2">
+            <a id="github-link" href="#" target="_blank" rel="noopener" class="px-8 py-3.5 rounded-3xl font-medium inline-flex items-center gap-2 btn-glass cta">
               <i data-lucide="github" class="w-5 h-5"></i>
               View GitHub
             </a>
-            <a href="#/contact" data-route class="px-8 py-3.5 border border-white/20 hover:border-white/40 rounded-3xl backdrop-blur-sm inline-flex items-center gap-2" style="background: rgba(255,255,255,0.05)">
+            <a href="#/contact" data-route class="px-8 py-3.5 rounded-3xl inline-flex items-center gap-2 btn-glass cta">
               <i data-lucide="send" class="w-5 h-5"></i>
               Contact Me
             </a>
@@ -157,15 +157,15 @@
 
           <!-- Quick Stats -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-            <div class="rounded-2xl border border-white/15 bg-white/5 p-6 text-center backdrop-blur-xl">
+            <div class="rounded-2xl border border-white/15 p-6 text-center backdrop-blur-xl stats-tile">
               <div class="text-3xl font-bold">30+</div>
               <div class="text-white/60 text-sm">Public Repos</div>
             </div>
-            <div class="rounded-2xl border border-white/15 bg-white/5 p-6 text-center backdrop-blur-xl">
+            <div class="rounded-2xl border border-white/15 p-6 text-center backdrop-blur-xl stats-tile">
               <div class="text-3xl font-bold">12</div>
               <div class="text-white/60 text-sm">Featured Projects</div>
             </div>
-            <div class="rounded-2xl border border-white/15 bg-white/5 p-6 text-center backdrop-blur-xl">
+            <div class="rounded-2xl border border-white/15 p-6 text-center backdrop-blur-xl stats-tile">
               <div class="text-3xl font-bold">∞</div>
               <div class="text-white/60 text-sm">Ideas Brewing</div>
             </div>
@@ -174,7 +174,7 @@
 
         <!-- Search / Controls -->
         <div class="mb-10 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-          <input id="search-all" type="search" placeholder="Search projects, repos, tags..." class="w-full md:w-1/2 rounded-2xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:border-white/40" />
+          <input id="search-all" type="search" placeholder="Search projects, repos, tags..." class="w-full md:w-1/2 rounded-2xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:border-white/40 btn-glass" />
           <div id="me-badge" class="hidden items-center gap-2 px-3 py-2 rounded-2xl bg-white/10 border border-white/20 text-sm">
             <i data-lucide="shield" class="w-4 h-4"></i>
             <span>Editing enabled</span>
@@ -184,22 +184,21 @@
 
         <!-- Graphic Feature Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 animate-fade-in-up delay-800">
-    <div class="rounded-3xl p-8 backdrop-blur-2xl border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02]"
-      style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 80px rgba(99,102,241,0.25), 0 14px 44px rgba(168,85,247,0.18);">
+            <div class="rounded-3xl p-8 border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] card">
             <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mb-8">
               <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
             </div>
             <h3 class="text-2xl font-semibold mb-3">Data-Driven</h3>
             <p class="text-white/70">Dashboards, charts, and visualizations to make insights pop.</p>
           </div>
-    <div class="rounded-3xl p-8 backdrop-blur-2xl border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02]" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 80px rgba(16,185,129,0.22), 0 14px 44px rgba(13,148,136,0.16);">
+  <div class="rounded-3xl p-8 border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] card">
             <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mb-8">
               <i data-lucide="sparkles" class="w-6 h-6"></i>
             </div>
             <h3 class="text-2xl font-semibold mb-3">Polished UI</h3>
             <p class="text-white/70">Glassmorphism, motion, and modern aesthetics done right.</p>
           </div>
-    <div class="rounded-3xl p-8 backdrop-blur-2xl border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02]" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 80px rgba(249,115,22,0.22), 0 14px 44px rgba(236,72,153,0.18);">
+  <div class="rounded-3xl p-8 border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] card">
             <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-pink-600 rounded-3xl flex items-center justify-center mb-8">
               <i data-lucide="globe" class="w-6 h-6"></i>
             </div>
@@ -258,7 +257,7 @@
         <div class="mt-16">
           <h2 class="text-2xl font-semibold mb-4">Activity Overview</h2>
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(34,197,94,0.22), 0 10px 30px rgba(16,185,129,0.14)">
+            <div class="rounded-3xl p-6 border border-white/15 hover:border-white/25 transition-all duration-300 card">
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center">
                   <i data-lucide="code" class="w-4 h-4"></i>
@@ -267,7 +266,7 @@
               </div>
               <canvas id="lang-chart" height="140"></canvas>
             </div>
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
+            <div class="rounded-3xl p-6 border border-white/15 hover:border-white/25 transition-all duration-300 card">
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center">
                   <i data-lucide="star" class="w-4 h-4"></i>
@@ -276,7 +275,7 @@
               </div>
               <canvas id="stars-chart" height="140"></canvas>
             </div>
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(168,85,247,0.22), 0 10px 30px rgba(99,102,241,0.14)">
+            <div class="rounded-3xl p-6 border border-white/15 hover:border-white/25 transition-all duration-300 card">
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center">
                   <i data-lucide="git-commit" class="w-4 h-4"></i>
@@ -285,7 +284,7 @@
               </div>
               <canvas id="commits-chart" height="140"></canvas>
             </div>
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(249,115,22,0.22), 0 10px 30px rgba(245,101,101,0.14)">
+            <div class="rounded-3xl p-6 border border-white/15 hover:border-white/25 transition-all duration-300 card">
               <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
                   <i data-lucide="trending-up" class="w-4 h-4"></i>
@@ -300,7 +299,7 @@
       <!-- Repo list modal -->
       <div id="repo-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6">
         <div class="absolute inset-0 bg-black/70"></div>
-        <div class="relative w-full max-w-3xl rounded-3xl border border-white/20 p-6 max-h-[80vh] overflow-auto" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(18px); box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);">
+  <div class="relative w-full max-w-3xl rounded-3xl border border-white/20 p-6 max-h-[80vh] overflow-auto panel">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold">Repositories</h3>
             <button id="close-repo-modal" class="p-2 rounded-xl hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
