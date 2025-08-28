@@ -1,17 +1,12 @@
 # Use Node.js LTS base image
-FROM node:18
+FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Set env for production
-ENV NODE_ENV=production
-
 # Copy dependency manifests and install (better layer caching)
-COPY package.json package-lock.json* ./
-
-RUN npm ci --only=production || npm install --only=production && \
-    npm cache clean --force
+COPY package*.json ./
+RUN npm install --production
 
 # Copy the rest of the app (including server and static files)
 COPY . .
@@ -20,4 +15,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the server
-CMD ["npm", "start"]
+CMD ["npm","start"]
