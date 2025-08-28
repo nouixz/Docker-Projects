@@ -457,4 +457,107 @@
       renderRepoList();
     }
   });
+
+  // Theme Management System
+  const themeButton = document.getElementById('theme-button');
+  const themeDropdown = document.getElementById('theme-dropdown');
+  const currentThemeName = document.getElementById('current-theme-name');
+  const themeOptions = document.querySelectorAll('.theme-option');
+  const THEME_KEY = 'portfolio-theme';
+
+  // Theme names mapping
+  const THEME_NAMES = {
+    'glassmorphism': 'Glassmorphism',
+    'neumorphism': 'Neumorphism',
+    'neo-brutalism': 'Neo-Brutalism'
+  };
+
+  // Load saved theme or default to glassmorphism
+  function loadTheme() {
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'glassmorphism';
+    applyTheme(savedTheme);
+    return savedTheme;
+  }
+
+  // Apply theme to document
+  function applyTheme(themeName) {
+    // Remove old theme data attributes
+    document.documentElement.removeAttribute('data-theme');
+    
+    // Apply new theme (glassmorphism is default, no attribute needed)
+    if (themeName !== 'glassmorphism') {
+      document.documentElement.setAttribute('data-theme', themeName);
+    }
+
+    // Update theme selector button text
+    if (currentThemeName) {
+      currentThemeName.textContent = THEME_NAMES[themeName] || 'Glassmorphism';
+    }
+
+    // Update active state in dropdown
+    themeOptions.forEach(option => {
+      const isActive = option.getAttribute('data-theme') === themeName;
+      option.classList.toggle('active', isActive);
+    });
+
+    // Save to localStorage
+    localStorage.setItem(THEME_KEY, themeName);
+
+    // Re-initialize icons to ensure they display correctly
+    setTimeout(initIcons, 100);
+  }
+
+  // Toggle theme dropdown
+  function toggleThemeDropdown() {
+    if (themeDropdown) {
+      themeDropdown.classList.toggle('open');
+    }
+  }
+
+  // Close dropdown when clicking outside
+  function closeThemeDropdown() {
+    if (themeDropdown) {
+      themeDropdown.classList.remove('open');
+    }
+  }
+
+  // Event listeners for theme system
+  if (themeButton) {
+    themeButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleThemeDropdown();
+    });
+  }
+
+  // Handle theme option clicks
+  themeOptions.forEach(option => {
+    option.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const themeName = option.getAttribute('data-theme');
+      if (themeName) {
+        applyTheme(themeName);
+        closeThemeDropdown();
+      }
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    const themeSelector = e.target.closest('.theme-selector');
+    if (!themeSelector && themeDropdown) {
+      closeThemeDropdown();
+    }
+  });
+
+  // Close dropdown on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeThemeDropdown();
+    }
+  });
+
+  // Initialize theme on page load
+  loadTheme();
 })();

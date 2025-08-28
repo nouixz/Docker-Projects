@@ -1,7 +1,7 @@
-/* Dark Glassmorphism theme — vibrant gradients, frosted panels, light borders */
+/* Multi-theme system with CSS Custom Properties */
 
 :root {
-  /* New dusk-meadow palette */
+  /* Default theme: Glassmorphism (dusk-meadow palette) */
   --bg-grad-1: #0b1218; /* deep teal */
   --bg-grad-2: #0d151f; /* night blue */
   --bg-grad-3: #101a26; /* base */
@@ -28,26 +28,109 @@
   --loss: #ef4444;
   --gain: #22c55e;
 
-  /* fixed layout row sizes */
-  /* Minimal baseline styles for a blank page */
+  /* Theme-specific properties */
+  --backdrop-blur: blur(16px);
+  --button-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 20px 60px rgba(99,102,241,0.25), 0 10px 30px rgba(168,85,247,0.15);
+}
 
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    color: #e7e7e7;
-    background: #10141a;
-  }
+/* Neumorphism Theme */
+:root[data-theme="neumorphism"] {
+  --bg-grad-1: #e0e0e0;
+  --bg-grad-2: #e5e5e5;
+  --bg-grad-3: #e8e8e8;
+  
+  --glass: #e0e0e0;
+  --glass-strong: #e0e0e0;
+  --border: transparent;
+  --text: #333333;
+  --text-dim: #666666;
+  --shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #f5f5f5;
+  --backdrop-blur: none;
+  --button-shadow: 6px 6px 12px #d1d1d1, -6px -6px 12px #f5f5f5;
+  
+  /* Neumorphic specific colors */
+  --pink: #e91e63;
+  --blue: #2196f3;
+  --violet: #9c27b0;
+  --mint: #4caf50;
+  --amber: #ff9800;
+}
 
-  .center {
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    text-align: center;
-  }
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+/* Neo-Brutalism Theme */
+:root[data-theme="neo-brutalism"] {
+  --bg-grad-1: #ffffff;
+  --bg-grad-2: #ffffff;
+  --bg-grad-3: #ffffff;
+  
+  --glass: #ffff00;
+  --glass-strong: #ff00ff;
+  --border: #000000;
+  --text: #000000;
+  --text-dim: #333333;
+  --shadow: 4px 4px 0px #000000;
+  --backdrop-blur: none;
+  --button-shadow: 3px 3px 0px #000000;
+  
+  /* Bold Neo-Brutalism colors */
+  --pink: #ff007f;
+  --blue: #00bfff;
+  --violet: #8a2be2;
+  --mint: #00ff7f;
+  --amber: #ffaa00;
+  
+  /* Brutalist blob colors */
+  --blob-green: #00ff00;
+  --blob-amber: #ff8800;
+  --blob-teal: #00ffff;
+}
+
+
+/* Minimal baseline styles for a blank page */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
+  transition: all 0.3s ease;
+}
+
+/* Theme-specific body styles */
+:root[data-theme="neumorphism"] body {
+  background: var(--bg-grad-1);
+}
+
+:root[data-theme="neo-brutalism"] body {
+  background: var(--bg-grad-1);
+}
+
+.center {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+/* Theme-specific glassmorphism effects */
+.glass-effect {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+}
+
+/* Neumorphism specific styles */
+:root[data-theme="neumorphism"] .glass-effect {
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+}
+
+/* Neo-Brutalism specific styles */
+:root[data-theme="neo-brutalism"] .glass-effect {
+  border: 3px solid var(--border);
+  border-radius: 0;
+  box-shadow: var(--shadow);
 }
 
 /* Animations to match template */
@@ -68,8 +151,460 @@
 
 /* Footer */
 .footer { position: sticky; bottom: 16px; margin: 0 auto 16px; border-radius: 16px; }
+
+/* Theme Selector Styles */
+.theme-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.theme-button {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+}
+
+.theme-button:hover {
+  background: var(--glass-strong);
+  border-color: var(--border);
+}
+
+/* Neumorphism theme button */
+:root[data-theme="neumorphism"] .theme-button {
+  box-shadow: var(--button-shadow);
+  border: none;
+}
+
+:root[data-theme="neumorphism"] .theme-button:hover {
+  box-shadow: inset 2px 2px 4px #d1d1d1, inset -2px -2px 4px #f5f5f5;
+}
+
+:root[data-theme="neumorphism"] .theme-button:active {
+  box-shadow: inset 4px 4px 8px #d1d1d1, inset -4px -4px 8px #f5f5f5;
+}
+
+/* Neo-Brutalism theme button */
+:root[data-theme="neo-brutalism"] .theme-button {
+  border: 3px solid var(--border);
+  border-radius: 0;
+  box-shadow: var(--button-shadow);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+:root[data-theme="neo-brutalism"] .theme-button:hover {
+  box-shadow: 2px 2px 0px #000000;
+  transform: translate(1px, 1px);
+}
+
+:root[data-theme="neo-brutalism"] .theme-button:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 0;
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  z-index: 1000;
+}
+
+/* Neumorphism dropdown */
+:root[data-theme="neumorphism"] .theme-dropdown {
+  box-shadow: var(--shadow);
+  border: none;
+}
+
+/* Neo-Brutalism dropdown */
+:root[data-theme="neo-brutalism"] .theme-dropdown {
+  border: 3px solid var(--border);
+  border-radius: 0;
+  box-shadow: var(--shadow);
+}
+
+.theme-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.theme-option:hover {
+  background: var(--glass-strong);
+}
+
+.theme-option.active {
+  background: var(--glass-strong);
+}
+
+.theme-option .theme-preview {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 12px;
+  border: 2px solid var(--border);
+}
+
+.theme-preview.glassmorphism {
+  background: linear-gradient(135deg, #0b1218, #8b5cf6);
+}
+
+.theme-preview.neumorphism {
+  background: #e0e0e0;
+  box-shadow: inset 2px 2px 4px #d1d1d1, inset -2px -2px 4px #f5f5f5;
+  border: none;
+}
+
+.theme-preview.neo-brutalism {
+  background: linear-gradient(45deg, #ffff00 50%, #ff00ff 50%);
+  border: 2px solid #000000;
+  border-radius: 0;
+}
+
+/* Neo-Brutalism theme option styles */
+:root[data-theme="neo-brutalism"] .theme-option {
+  border-bottom: 2px solid var(--border);
+}
+
+:root[data-theme="neo-brutalism"] .theme-option:last-child {
+  border-bottom: none;
+}
+
+:root[data-theme="neo-brutalism"] .theme-option:hover {
+  background: var(--amber);
+  color: #000000;
+}
 .foot { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; gap: 12px; }
 
-/* Selection & focus styles */
-::selection { background: rgba(255,255,255,0.18); color: #000; }
-:focus-visible { outline: 2px solid rgba(255,255,255,0.5); outline-offset: 2px; border-radius: 8px; }
+/* Enhanced theme-specific background elements */
+
+/* Glassmorphism theme blobs */
+.theme-blob-1 {
+  background: radial-gradient(circle, var(--violet)/0.2 0%, transparent 70%);
+}
+
+.theme-blob-2 {
+  background: radial-gradient(circle, var(--pink)/0.2 0%, transparent 70%);
+}
+
+.theme-blob-3 {
+  background: radial-gradient(circle, var(--mint)/0.15 0%, transparent 70%);
+}
+
+.theme-blob-4 {
+  background: radial-gradient(circle, var(--blue)/0.15 0%, transparent 70%);
+}
+
+.theme-gradient {
+  background: radial-gradient(circle_at_50%_50%, var(--violet)/0.05, transparent 50%);
+}
+
+/* Neumorphism theme - softer, more muted blobs */
+:root[data-theme="neumorphism"] .theme-blob-1,
+:root[data-theme="neumorphism"] .theme-blob-2,
+:root[data-theme="neumorphism"] .theme-blob-3,
+:root[data-theme="neumorphism"] .theme-blob-4 {
+  background: radial-gradient(circle, #d1d1d1/0.1 0%, transparent 70%);
+  filter: blur(40px);
+}
+
+:root[data-theme="neumorphism"] .theme-gradient {
+  background: radial-gradient(circle_at_50%_50%, #e0e0e0/0.05, transparent 50%);
+}
+
+/* Neo-Brutalism theme - bold, harsh geometric shapes */
+:root[data-theme="neo-brutalism"] .theme-blob-1 {
+  background: linear-gradient(45deg, var(--mint)/0.4 25%, transparent 25%, transparent 75%, var(--mint)/0.4 75%);
+  border-radius: 0;
+  transform: rotate(45deg);
+  filter: none;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+}
+
+:root[data-theme="neo-brutalism"] .theme-blob-2 {
+  background: repeating-linear-gradient(90deg, var(--amber)/0.3 0px, var(--amber)/0.3 40px, transparent 40px, transparent 80px);
+  border-radius: 0;
+  transform: rotate(-30deg);
+  filter: none;
+  clip-path: polygon(0% 25%, 25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%);
+}
+
+:root[data-theme="neo-brutalism"] .theme-blob-3 {
+  background: conic-gradient(var(--pink)/0.4 0deg 90deg, transparent 90deg 180deg, var(--blue)/0.4 180deg 270deg, transparent 270deg);
+  border-radius: 0;
+  filter: none;
+  transform: rotate(15deg);
+}
+
+:root[data-theme="neo-brutalism"] .theme-blob-4 {
+  background: radial-gradient(circle, var(--violet)/0.5 20%, transparent 20%, transparent 40%, var(--mint)/0.3 40%, transparent 60%);
+  border-radius: 0;
+  filter: none;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+:root[data-theme="neo-brutalism"] .theme-gradient {
+  background: repeating-conic-gradient(from 0deg at 50% 50%, #000000/0.02 0deg 45deg, transparent 45deg 90deg);
+}
+
+/* Enhanced Theme-Specific Effects and Animations */
+
+/* Glassmorphism enhanced effects */
+:root .glass-effect {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root .glass-effect:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3), 0 10px 20px rgba(168, 85, 247, 0.2);
+}
+
+/* Glassmorphism card hover animations */
+:root .rounded-3xl:hover {
+  transform: scale(1.02) translateY(-4px);
+  transition: all 0.4s ease;
+}
+
+/* Neumorphism enhanced effects */
+:root[data-theme="neumorphism"] .glass-effect {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+:root[data-theme="neumorphism"] .glass-effect:hover {
+  box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #f5f5f5, 
+              8px 8px 16px #d1d1d1, -8px -8px 16px #f5f5f5;
+  transform: translateY(-1px);
+}
+
+:root[data-theme="neumorphism"] .rounded-3xl:hover {
+  box-shadow: inset 2px 2px 4px #d1d1d1, inset -2px -2px 4px #f5f5f5,
+              12px 12px 24px #d1d1d1, -12px -12px 24px #f5f5f5;
+  transform: scale(1.01);
+}
+
+/* Neumorphism button press effect */
+:root[data-theme="neumorphism"] button:active,
+:root[data-theme="neumorphism"] .glass-effect:active {
+  box-shadow: inset 6px 6px 12px #d1d1d1, inset -6px -6px 12px #f5f5f5;
+  transform: scale(0.98);
+}
+
+/* Neo-Brutalism enhanced effects */
+:root[data-theme="neo-brutalism"] .glass-effect {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+:root[data-theme="neo-brutalism"] .glass-effect:hover {
+  box-shadow: 6px 6px 0px #000000;
+  transform: translate(-2px, -2px);
+  background: var(--mint);
+}
+
+:root[data-theme="neo-brutalism"] .rounded-3xl:hover {
+  box-shadow: 8px 8px 0px #000000;
+  transform: translate(-3px, -3px) scale(1.01);
+  background: var(--pink);
+  border-color: #000000;
+}
+
+:root[data-theme="neo-brutalism"] button:hover {
+  box-shadow: 4px 4px 0px #000000;
+  transform: translate(-1px, -1px);
+  background: var(--amber);
+  color: #000000;
+}
+
+:root[data-theme="neo-brutalism"] button:active,
+:root[data-theme="neo-brutalism"] .glass-effect:active {
+  box-shadow: 2px 2px 0px #000000;
+  transform: translate(1px, 1px);
+}
+
+/* Theme-specific background blob animations */
+:root .animate-pulse {
+  animation: glassmorphismPulse 4s ease-in-out infinite;
+}
+
+@keyframes glassmorphismPulse {
+  0%, 100% { 
+    opacity: 0.2; 
+    transform: scale(1) rotate(0deg);
+  }
+  50% { 
+    opacity: 0.4; 
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+:root[data-theme="neumorphism"] .animate-pulse {
+  animation: neumorphismFloat 6s ease-in-out infinite;
+}
+
+@keyframes neumorphismFloat {
+  0%, 100% { 
+    transform: translateY(0px) scale(1);
+    opacity: 0.1;
+  }
+  50% { 
+    transform: translateY(-20px) scale(1.05);
+    opacity: 0.2;
+  }
+}
+
+:root[data-theme="neo-brutalism"] .animate-pulse {
+  animation: brutalismJump 3s linear infinite;
+}
+
+@keyframes brutalismJump {
+  0%, 100% { 
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  25% { 
+    transform: translate(10px, -10px) rotate(5deg);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translate(-5px, -20px) rotate(-3deg);
+    opacity: 0.4;
+  }
+  75% { 
+    transform: translate(-10px, -5px) rotate(2deg);
+    opacity: 0.7;
+  }
+}
+
+/* Enhanced theme-specific text selection */
+:root ::selection { 
+  background: rgba(139, 92, 246, 0.3); 
+  color: #fff; 
+}
+
+:root[data-theme="neumorphism"] ::selection { 
+  background: rgba(33, 150, 243, 0.3); 
+  color: #000; 
+}
+
+:root[data-theme="neo-brutalism"] ::selection { 
+  background: var(--mint); 
+  color: #000; 
+}
+
+/* Enhanced focus styles per theme */
+:root :focus-visible { 
+  outline: 2px solid rgba(139, 92, 246, 0.8); 
+  outline-offset: 2px; 
+  border-radius: 8px; 
+}
+
+:root[data-theme="neumorphism"] :focus-visible { 
+  outline: 2px solid #2196f3; 
+  box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.2);
+}
+
+:root[data-theme="neo-brutalism"] :focus-visible { 
+  outline: 3px solid #000000; 
+  outline-offset: 2px;
+  box-shadow: 3px 3px 0px var(--amber);
+  border-radius: 0;
+}
+
+/* Override Tailwind text colors to use CSS custom properties */
+.text-white,
+.text-white\/70,
+.text-white\/60,
+.text-white\/80,
+.text-white\/90,
+nav a,
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text) !important;
+}
+
+.text-white\/70 {
+  color: var(--text-dim) !important;
+}
+
+.text-white\/60 {
+  opacity: 0.6;
+  color: var(--text) !important;
+}
+
+.text-white\/80 {
+  opacity: 0.8;
+  color: var(--text) !important;
+}
+
+/* Hover states for navigation */
+nav a:hover {
+  color: var(--text) !important;
+  opacity: 1;
+}
+
+/* Background overrides */
+.bg-black {
+  background: var(--bg-grad-1) !important;
+}
+
+/* Border overrides */
+.border-white\/10,
+.border-white\/15,
+.border-white\/20 {
+  border-color: var(--border) !important;
+}
+
+.border-white\/40 {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+:root[data-theme="neumorphism"] .border-white\/40 {
+  border-color: #999999 !important;
+}
+
+:root[data-theme="neo-brutalism"] .border-white\/40 {
+  border-color: #000000 !important;
+}
+
+/* Card background overrides */
+.bg-white\/5,
+.bg-white\/10 {
+  background: var(--glass) !important;
+}
+
+/* Backdrop blur overrides */
+.backdrop-blur-xl,
+.backdrop-blur-2xl {
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+}
