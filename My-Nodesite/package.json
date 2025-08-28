@@ -1,12 +1,33 @@
 {
-  "name": "simple-node-site",
+  "name": "my-nodesite",
   "version": "1.0.0",
+  "description": "A simple Node.js portfolio site with GitHub OAuth and project management",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js",
+    "setup": "node setup.js",
+    "test": "node server.js --test",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "logs": "docker-compose logs -f app || echo 'Run docker:up first or use npm start for local development'"
   },
+  "keywords": [
+    "nodejs",
+    "portfolio",
+    "github-oauth",
+    "docker",
+    "postgresql"
+  ],
+  "author": "My-Nodesite",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.4.5",
     "pg": "^8.11.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

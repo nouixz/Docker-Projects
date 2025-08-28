@@ -12,6 +12,14 @@ const fsp = fs.promises;
 // Load environment variables from .env file
 require('dotenv').config();
 
+// Auto-generate SESSION_SECRET if not provided
+if (!process.env.SESSION_SECRET) {
+  console.warn('⚠️  WARNING: SESSION_SECRET not set! Using auto-generated secret.');
+  console.warn('   For production, set SESSION_SECRET in .env file.');
+  console.warn('   Run "npm run setup" to configure properly.\n');
+  process.env.SESSION_SECRET = require('crypto').randomBytes(64).toString('hex');
+}
+
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, "public");
 const DATA_DIR = path.join(__dirname, "data");
@@ -25,6 +33,42 @@ const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || "";
 const ADMIN_GITHUB_USER = (process.env.ADMIN_GITHUB_USER || "").toLowerCase();
 const SESSION_TTL_SECONDS = Number(process.env.SESSION_TTL_SECONDS || 60 * 60 * 8); // 8h default
 const USER_AGENT = process.env.USER_AGENT || "My-Nodesite/1.0";
+const SESSION_SECRET = process.env.SESSION_SECRET; // Now guaranteed to exist
+
+// Configuration validation and warnings
+const config = {
+  hasGitHubOAuth: !!(GITHUB_CLIENT_ID && GITHUB_CLIENT_SECRET),
+  hasDatabase: !!DATABASE_URL,
+  hasAdminUser: !!ADMIN_GITHUB_USER,
+  isProduction: process.env.NODE_ENV === 'production'
+};
+
+// Show configuration status on startup
+function showConfigStatus() {
+  console.log('\n' + '='.repeat(50));
+  console.log('🚀 My-Nodesite Configuration Status');
+  console.log('='.repeat(50));
+  console.log(`📍 Server: http://localhost:${PORT}`);
+  console.log(`🔐 Session: ${SESSION_SECRET ? '✅ Configured' : '❌ Missing'}`);
+  console.log(`👤 GitHub OAuth: ${config.hasGitHubOAuth ? '✅ Configured' : '⚠️  Not configured (limited features)'}`);
+  console.log(`🗄️  Database: ${config.hasDatabase ? '✅ PostgreSQL' : '⚠️  File storage only'}`);
+  console.log(`👮 Admin User: ${config.hasAdminUser ? `✅ ${ADMIN_GITHUB_USER}` : '⚠️  Any GitHub user'}`);
+  console.log(`🏷️  Environment: ${process.env.NODE_ENV || 'development'}`);
+  
+  if (!config.hasGitHubOAuth) {
+    console.log('\n💡 To enable GitHub OAuth admin features:');
+    console.log('   1. Run: npm run setup');
+    console.log('   2. Or manually configure GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET in .env');
+  }
+  
+  if (!config.hasDatabase) {
+    console.log('\n💡 To enable PostgreSQL database:');
+    console.log('   1. Configure DATABASE_URL in .env');
+    console.log('   2. Or use Docker: docker-compose up');
+  }
+  
+  console.log('='.repeat(50) + '\n');
+}
 // In-memory session and state stores (sufficient for single-instance, demo-scale)
 const sessions = new Map(); // sid -> { user, exp }
 const oauthStates = new Set();
@@ -307,10 +351,67 @@ const server = http.createServer((req, res) => {
     return json(res, 200, { authed: isAuthed, user: session?.user });
   }
 
+  // Configuration status API
+  if (urlPath === "/api/config") {
+    return json(res, 200, {
+      hasGitHubOAuth: config.hasGitHubOAuth,
+      hasDatabase: config.hasDatabase,
+      hasAdminUser: config.hasAdminUser,
+      isProduction: config.isProduction,
+      version: require('./package.json').version || '1.0.0'
+    });
+  }
+
+  // Setup status and guidance
+  if (urlPath === "/api/setup") {
+    const setupIssues = [];
+    const recommendations = [];
+    
+    if (!SESSION_SECRET || SESSION_SECRET.length < 32) {
+      setupIssues.push('Weak or missing session secret');
+      recommendations.push('Run "npm run setup" to generate secure session secret');
+    }
+    
+    if (!config.hasGitHubOAuth) {
+      recommendations.push('Configure GitHub OAuth for admin features');
+    }
+    
+    if (!config.hasDatabase) {
+      recommendations.push('Configure PostgreSQL for persistent storage');
+    }
+    
+    return json(res, 200, {
+      isFullyConfigured: setupIssues.length === 0 && config.hasGitHubOAuth,
+      issues: setupIssues,
+      recommendations: recommendations,
+      setupCommands: [
+        'npm run setup - Interactive setup wizard',
+        'npm run docker:up - Start with Docker & PostgreSQL',
+        'npm run dev - Start in development mode'
+      ]
+    });
+  }
+
   // GitHub OAuth routes
   if (urlPath === "/auth/github") {
     if (!GITHUB_CLIENT_ID) {
-      return json(res, 500, { error: "GitHub OAuth not configured" });
+      res.writeHead(400, { "Content-Type": "text/html; charset=utf-8" });
+      return res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head><title>GitHub OAuth Not Configured</title></head>
+        <body>
+          <h1>⚠️ GitHub OAuth Not Configured</h1>
+          <p>GitHub OAuth is not set up for this application.</p>
+          <h3>To enable GitHub authentication:</h3>
+          <ol>
+            <li>Run: <code>npm run setup</code></li>
+            <li>Or manually configure GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET in .env</li>
+          </ol>
+          <p><a href="/">← Back to Home</a></p>
+        </body>
+        </html>
+      `);
     }
     const state = makeSid();
     oauthStates.add(state);
@@ -522,5 +623,12 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  showConfigStatus();
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+  
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`🔧 Setup: npm run setup`);
+    console.log(`🐳 Docker: npm run docker:up`);
+    console.log(`📝 Logs: npm run logs\n`);
+  }
 });
