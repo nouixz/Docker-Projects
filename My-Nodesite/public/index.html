@@ -8,30 +8,30 @@
     <meta name="github:user" content="nouixz" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/styles.css" />
     <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script defer src="/script.js"></script>
   </head>
-  <body class="min-h-screen antialiased overflow-x-hidden theme-animate">
+  <body class="min-h-screen antialiased overflow-x-hidden theme-animate modern-background">
     <!-- Header / Nav -->
-  <header class="sticky top-0 z-40 backdrop-blur-xl border-b border-white/10 theme-animate bg-glass border-theme">
+  <header class="sticky top-0 z-40 modern-glass border-b border-white/10 theme-animate border-theme">
       <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
-        <a href="#/home" data-route class="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/10 border border-white/20">
+        <a href="#/home" data-route class="flex items-center gap-3 px-4 py-2 rounded-2xl modern-glass hover:bg-white/15 transition-all duration-300">
           <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 11l9-8 9 8"/><path d="M4 10v10a1 1 0 001 1h4V14h6v7h4a1 1 0 001-1V10"/>
             </svg>
           </div>
-          <span class="font-semibold">Portfolio</span>
+          <span class="font-bold">Portfolio</span>
         </a>
         <nav class="flex items-center gap-2">
-          <a href="#/home" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Home</a>
-          <a href="#/projects" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Projects</a>
-          <a href="#/about" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">About</a>
-          <a href="#/blog" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Blog</a>
-          <a href="#/contact" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Contact</a>
+          <a href="#/home" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">Home</a>
+          <a href="#/projects" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">Projects</a>
+          <a href="#/about" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">About</a>
+          <a href="#/blog" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">Blog</a>
+          <a href="#/contact" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300">Contact</a>
           
           <!-- Theme Selector -->
           <div class="theme-selector ml-2">
@@ -139,18 +139,18 @@
               </div>
             </div>
           </div>
-          <h1 class="text-5xl sm:text-6xl xl:text-7xl leading-tight font-semibold tracking-tight mb-6 theme-animate">
-            <span class="block">Build. Ship.</span>
-            <span class="block headline-gradient">Explore Projects</span>
+          <h1 class="text-5xl sm:text-6xl xl:text-7xl leading-tight font-bold tracking-tight mb-6 theme-animate">
+            <span class="block text-white/95">Build. Ship.</span>
+            <span class="block modern-heading">Explore Projects</span>
           </h1>
           <p class="text-white/70 max-w-2xl mb-8">Discover open-source work from GitHub and curated projects featured on this site. Use search to quickly find what you’re looking for.</p>
 
           <div class="flex flex-col sm:flex-row gap-4 mb-12">
-            <a id="github-link" href="#" target="_blank" rel="noopener" class="px-8 py-3.5 rounded-3xl font-medium inline-flex items-center gap-2 btn-glass cta">
+            <a id="github-link" href="#" target="_blank" rel="noopener" class="modern-button px-8 py-3.5 rounded-2xl font-medium inline-flex items-center gap-2 text-white">
               <i data-lucide="github" class="w-5 h-5"></i>
               View GitHub
             </a>
-            <a href="#/contact" data-route class="px-8 py-3.5 rounded-3xl inline-flex items-center gap-2 btn-glass cta">
+            <a href="#/contact" data-route class="modern-button px-8 py-3.5 rounded-2xl inline-flex items-center gap-2 text-white">
               <i data-lucide="send" class="w-5 h-5"></i>
               Contact Me
             </a>
@@ -158,60 +158,60 @@
 
           <!-- Quick Stats -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-            <div class="rounded-2xl border border-white/15 p-6 text-center backdrop-blur-xl stats-tile">
-              <div class="text-3xl font-bold">30+</div>
-              <div class="text-white/60 text-sm">Public Repos</div>
+            <div class="modern-glass modern-card rounded-3xl p-8 text-center">
+              <div class="text-4xl font-bold mb-2 modern-heading">30+</div>
+              <div class="text-white/70 text-sm font-medium">Public Repos</div>
             </div>
-            <div class="rounded-2xl border border-white/15 p-6 text-center backdrop-blur-xl stats-tile">
-              <div class="text-3xl font-bold">12</div>
-              <div class="text-white/60 text-sm">Featured Projects</div>
+            <div class="modern-glass modern-card rounded-3xl p-8 text-center">
+              <div class="text-4xl font-bold mb-2 modern-heading">12</div>
+              <div class="text-white/70 text-sm font-medium">Featured Projects</div>
             </div>
-            <div class="rounded-2xl border border-white/15 p-6 text-center backdrop-blur-xl stats-tile">
-              <div class="text-3xl font-bold">∞</div>
-              <div class="text-white/60 text-sm">Ideas Brewing</div>
+            <div class="modern-glass modern-card rounded-3xl p-8 text-center">
+              <div class="text-4xl font-bold mb-2 modern-heading">∞</div>
+              <div class="text-white/70 text-sm font-medium">Ideas Brewing</div>
             </div>
           </div>
         </div>
 
         <!-- Search / Controls -->
         <div class="mb-10 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-          <input id="search-all" type="search" placeholder="Search projects, repos, tags..." class="w-full md:w-1/2 rounded-2xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:border-white/40 btn-glass" />
-          <div id="me-badge" class="hidden items-center gap-2 px-3 py-2 rounded-2xl bg-white/10 border border-white/20 text-sm">
+          <input id="search-all" type="search" placeholder="Search projects, repos, tags..." class="w-full md:w-1/2 rounded-2xl modern-glass px-6 py-4 outline-none focus:border-white/40 text-white placeholder-white/60 text-lg" />
+          <div id="me-badge" class="hidden items-center gap-2 px-4 py-3 rounded-2xl modern-glass text-sm font-medium">
             <i data-lucide="shield" class="w-4 h-4"></i>
             <span>Editing enabled</span>
-            <a href="/logout" class="ml-2 underline hover:no-underline">Logout</a>
+            <a href="/logout" class="ml-2 underline hover:no-underline text-white/80 hover:text-white">Logout</a>
           </div>
         </div>
 
         <!-- Graphic Feature Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 animate-fade-in-up delay-800">
-            <div class="rounded-3xl p-8 border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] card">
-            <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mb-8">
-              <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+            <div class="modern-glass modern-card rounded-3xl p-8 hover:border-white/30 transition-all duration-500">
+            <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mb-6">
+              <i data-lucide="bar-chart-3" class="w-7 h-7 text-white"></i>
             </div>
-            <h3 class="text-2xl font-semibold mb-3">Data-Driven</h3>
-            <p class="text-white/70">Dashboards, charts, and visualizations to make insights pop.</p>
+            <h3 class="text-2xl font-bold mb-4 text-white">Data-Driven</h3>
+            <p class="text-white/75 leading-relaxed">Dashboards, charts, and visualizations to make insights pop.</p>
           </div>
-  <div class="rounded-3xl p-8 border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] card">
-            <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mb-8">
-              <i data-lucide="sparkles" class="w-6 h-6"></i>
+  <div class="modern-glass modern-card rounded-3xl p-8 hover:border-white/30 transition-all duration-500">
+            <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mb-6">
+              <i data-lucide="sparkles" class="w-7 h-7 text-white"></i>
             </div>
-            <h3 class="text-2xl font-semibold mb-3">Polished UI</h3>
-            <p class="text-white/70">Glassmorphism, motion, and modern aesthetics done right.</p>
+            <h3 class="text-2xl font-bold mb-4 text-white">Polished UI</h3>
+            <p class="text-white/75 leading-relaxed">Glassmorphism, motion, and modern aesthetics done right.</p>
           </div>
-  <div class="rounded-3xl p-8 border border-white/15 hover:border-white/40 transition-all duration-500 transform hover:scale-[1.02] card">
-            <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-pink-600 rounded-3xl flex items-center justify-center mb-8">
-              <i data-lucide="globe" class="w-6 h-6"></i>
+  <div class="modern-glass modern-card rounded-3xl p-8 hover:border-white/30 transition-all duration-500">
+            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-pink-600 rounded-3xl flex items-center justify-center mb-6">
+              <i data-lucide="globe" class="w-7 h-7 text-white"></i>
             </div>
-            <h3 class="text-2xl font-semibold mb-3">Web & APIs</h3>
-            <p class="text-white/70">Full-stack builds with solid APIs and strong UX.</p>
+            <h3 class="text-2xl font-bold mb-4 text-white">Web & APIs</h3>
+            <p class="text-white/75 leading-relaxed">Full-stack builds with solid APIs and strong UX.</p>
           </div>
         </div>
 
         <!-- GitHub Repos -->
         <div class="mb-12">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-2xl font-semibold">GitHub Repositories</h2>
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-3xl font-bold modern-heading">GitHub Repositories</h2>
             <!-- Link above in hero acts as primary GitHub CTA -->
           </div>
           <div id="github-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
@@ -349,55 +349,55 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/10 mt-32">
+    <footer class="border-t border-white/10 mt-32 modern-glass">
       <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div class="lg:col-span-1">
-            <a href="#/home" class="flex items-center gap-3 text-lg font-semibold mb-6">
-              <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="#/home" class="flex items-center gap-3 text-lg font-bold mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                   <path d="m2 17 10 5 10-5"></path>
                   <path d="m2 12 10 5 10-5"></path>
                 </svg>
               </div>
-              <span class="text-white font-semibold">Portfolio</span>
+              <span class="modern-heading">Portfolio</span>
             </a>
-            <p class="text-white/60 text-sm leading-relaxed mb-8">Personal portfolio to explore projects, open-source work, and experiments.</p>
+            <p class="text-white/70 leading-relaxed mb-8">Personal portfolio to explore projects, open-source work, and experiments.</p>
             <div class="flex gap-4">
-              <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="Twitter">
-                <i data-lucide="twitter" class="w-4 h-4 text-white/70"></i>
+              <a href="#" class="w-12 h-12 modern-glass hover:bg-white/15 rounded-2xl flex items-center justify-center transition-all duration-300 hover:transform hover:scale-105" aria-label="Twitter">
+                <i data-lucide="twitter" class="w-5 h-5 text-white/80"></i>
               </a>
-              <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="Messages">
-                <i data-lucide="message-circle" class="w-4 h-4 text-white/70"></i>
+              <a href="#" class="w-12 h-12 modern-glass hover:bg-white/15 rounded-2xl flex items-center justify-center transition-all duration-300 hover:transform hover:scale-105" aria-label="Messages">
+                <i data-lucide="message-circle" class="w-5 h-5 text-white/80"></i>
               </a>
-              <a href="#" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-2xl flex items-center justify-center transition-colors duration-300" aria-label="GitHub">
-                <i data-lucide="github" class="w-4 h-4 text-white/70"></i>
+              <a href="#" class="w-12 h-12 modern-glass hover:bg-white/15 rounded-2xl flex items-center justify-center transition-all duration-300 hover:transform hover:scale-105" aria-label="GitHub">
+                <i data-lucide="github" class="w-5 h-5 text-white/80"></i>
               </a>
             </div>
           </div>
 
           <div>
-            <h4 class="text-white font-semibold mb-6">Navigate</h4>
-            <ul class="space-y-4 text-sm">
-              <li><a href="#/home" class="text-white/60 hover:text-white">Home</a></li>
-              <li><a href="#/projects" class="text-white/60 hover:text-white">Projects</a></li>
-              <li><a href="#/about" class="text-white/60 hover:text-white">About</a></li>
-              <li><a href="#/blog" class="text-white/60 hover:text-white">Blog</a></li>
-              <li><a href="#/contact" class="text-white/60 hover:text-white">Contact</a></li>
+            <h4 class="text-white font-bold mb-6 text-lg">Navigate</h4>
+            <ul class="space-y-4">
+              <li><a href="#/home" class="text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 block">Home</a></li>
+              <li><a href="#/projects" class="text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 block">Projects</a></li>
+              <li><a href="#/about" class="text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 block">About</a></li>
+              <li><a href="#/blog" class="text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 block">Blog</a></li>
+              <li><a href="#/contact" class="text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 block">Contact</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 class="text-white font-semibold mb-6">Resources</h4>
-            <ul class="space-y-4 text-sm">
-              <li><a id="github-link-footer" href="#" target="_blank" rel="noopener" class="text-white/60 hover:text-white">GitHub</a></li>
-              <li><a href="/logout" class="text-white/60 hover:text-white">Logout</a></li>
+            <h4 class="text-white font-bold mb-6 text-lg">Resources</h4>
+            <ul class="space-y-4">
+              <li><a id="github-link-footer" href="#" target="_blank" rel="noopener" class="text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 block">GitHub</a></li>
+              <li><a href="/logout" class="text-white/70 hover:text-white hover:translate-x-1 transition-all duration-300 block">Logout</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 class="text-white font-semibold mb-6">Contact</h4>
+            <h4 class="text-white font-bold mb-6 text-lg">Contact</h4>
             <ul class="space-y-4 text-sm text-white/60">
               <li>Email: your@email.com</li>
               <li>Location: Earth</li>
