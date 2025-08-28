@@ -45,9 +45,10 @@
 
 /* Neumorphism Theme */
 :root[data-theme="neumorphism"] {
-  --bg-grad-1: #e0e0e0;
-  --bg-grad-2: #e5e5e5;
-  --bg-grad-3: #e8e8e8;
+  /* Softer light backdrop */
+  --bg-grad-1: #ececec;
+  --bg-grad-2: #e6e6e6;
+  --bg-grad-3: #e0e0e0;
   
   --glass: #e0e0e0;
   --glass-strong: #e0e0e0;
@@ -75,6 +76,7 @@
 
 /* Neo-Brutalism Theme */
 :root[data-theme="neo-brutalism"] {
+  /* Stark flat backdrop */
   --bg-grad-1: #ffffff;
   --bg-grad-2: #ffffff;
   --bg-grad-3: #ffffff;
@@ -121,18 +123,30 @@ body {
 }
 
 /* Theme-specific body styles */
-:root[data-theme="neumorphism"] body {
-  background: linear-gradient(180deg, #ececec, #e6e6e6 40%, #e0e0e0);
-}
-
+:root[data-theme="neumorphism"] body,
 :root[data-theme="neo-brutalism"] body {
-  background: linear-gradient(180deg, #fff 0%, #fff 100%);
+  /* Use theme variables for body to keep consistency */
+  background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
 }
 
 /* Spline background visibility per theme */
 .theme-spline { opacity: 1; transition: opacity .35s ease; }
 :root[data-theme="neumorphism"] .theme-spline,
 :root[data-theme="neo-brutalism"] .theme-spline { opacity: 0; }
+
+/* Tone background elements down for neumorphism and neo-brutalism to avoid glassy look */
+/* Remove glassy purple layers for these themes */
+:root[data-theme="neumorphism"] #background-elements .theme-gradient,
+:root[data-theme="neo-brutalism"] #background-elements .theme-gradient { display: none !important; }
+
+:root[data-theme="neumorphism"] #background-elements .theme-blob-1,
+:root[data-theme="neumorphism"] #background-elements .theme-blob-2,
+:root[data-theme="neumorphism"] #background-elements .theme-blob-3,
+:root[data-theme="neumorphism"] #background-elements .theme-blob-4,
+:root[data-theme="neo-brutalism"] #background-elements .theme-blob-1,
+:root[data-theme="neo-brutalism"] #background-elements .theme-blob-2,
+:root[data-theme="neo-brutalism"] #background-elements .theme-blob-3,
+:root[data-theme="neo-brutalism"] #background-elements .theme-blob-4 { display: none !important; }
 
 /* Hero “chip” and CTA surfaces follow theme */
 .chip,
