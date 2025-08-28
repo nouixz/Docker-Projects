@@ -304,6 +304,239 @@ body {
 }
 .foot { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; gap: 12px; }
 
-/* Selection & focus styles */
-::selection { background: rgba(255,255,255,0.18); color: #000; }
-:focus-visible { outline: 2px solid rgba(255,255,255,0.5); outline-offset: 2px; border-radius: 8px; }
+/* Enhanced theme-specific background elements */
+
+/* Glassmorphism theme blobs */
+.theme-blob-1 {
+  background: radial-gradient(circle, var(--violet)/0.2 0%, transparent 70%);
+}
+
+.theme-blob-2 {
+  background: radial-gradient(circle, var(--pink)/0.2 0%, transparent 70%);
+}
+
+.theme-blob-3 {
+  background: radial-gradient(circle, var(--mint)/0.15 0%, transparent 70%);
+}
+
+.theme-blob-4 {
+  background: radial-gradient(circle, var(--blue)/0.15 0%, transparent 70%);
+}
+
+.theme-gradient {
+  background: radial-gradient(circle_at_50%_50%, var(--violet)/0.05, transparent 50%);
+}
+
+/* Neumorphism theme - softer, more muted blobs */
+:root[data-theme="neumorphism"] .theme-blob-1,
+:root[data-theme="neumorphism"] .theme-blob-2,
+:root[data-theme="neumorphism"] .theme-blob-3,
+:root[data-theme="neumorphism"] .theme-blob-4 {
+  background: radial-gradient(circle, #d1d1d1/0.1 0%, transparent 70%);
+  filter: blur(40px);
+}
+
+:root[data-theme="neumorphism"] .theme-gradient {
+  background: radial-gradient(circle_at_50%_50%, #e0e0e0/0.05, transparent 50%);
+}
+
+/* Neo-Brutalism theme - bold, harsh geometric shapes */
+:root[data-theme="neo-brutalism"] .theme-blob-1 {
+  background: linear-gradient(45deg, var(--mint)/0.4 25%, transparent 25%, transparent 75%, var(--mint)/0.4 75%);
+  border-radius: 0;
+  transform: rotate(45deg);
+  filter: none;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+}
+
+:root[data-theme="neo-brutalism"] .theme-blob-2 {
+  background: repeating-linear-gradient(90deg, var(--amber)/0.3 0px, var(--amber)/0.3 40px, transparent 40px, transparent 80px);
+  border-radius: 0;
+  transform: rotate(-30deg);
+  filter: none;
+  clip-path: polygon(0% 25%, 25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%);
+}
+
+:root[data-theme="neo-brutalism"] .theme-blob-3 {
+  background: conic-gradient(var(--pink)/0.4 0deg 90deg, transparent 90deg 180deg, var(--blue)/0.4 180deg 270deg, transparent 270deg);
+  border-radius: 0;
+  filter: none;
+  transform: rotate(15deg);
+}
+
+:root[data-theme="neo-brutalism"] .theme-blob-4 {
+  background: radial-gradient(circle, var(--violet)/0.5 20%, transparent 20%, transparent 40%, var(--mint)/0.3 40%, transparent 60%);
+  border-radius: 0;
+  filter: none;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+:root[data-theme="neo-brutalism"] .theme-gradient {
+  background: repeating-conic-gradient(from 0deg at 50% 50%, #000000/0.02 0deg 45deg, transparent 45deg 90deg);
+}
+
+/* Enhanced Theme-Specific Effects and Animations */
+
+/* Glassmorphism enhanced effects */
+:root .glass-effect {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root .glass-effect:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3), 0 10px 20px rgba(168, 85, 247, 0.2);
+}
+
+/* Glassmorphism card hover animations */
+:root .rounded-3xl:hover {
+  transform: scale(1.02) translateY(-4px);
+  transition: all 0.4s ease;
+}
+
+/* Neumorphism enhanced effects */
+:root[data-theme="neumorphism"] .glass-effect {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+:root[data-theme="neumorphism"] .glass-effect:hover {
+  box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #f5f5f5, 
+              8px 8px 16px #d1d1d1, -8px -8px 16px #f5f5f5;
+  transform: translateY(-1px);
+}
+
+:root[data-theme="neumorphism"] .rounded-3xl:hover {
+  box-shadow: inset 2px 2px 4px #d1d1d1, inset -2px -2px 4px #f5f5f5,
+              12px 12px 24px #d1d1d1, -12px -12px 24px #f5f5f5;
+  transform: scale(1.01);
+}
+
+/* Neumorphism button press effect */
+:root[data-theme="neumorphism"] button:active,
+:root[data-theme="neumorphism"] .glass-effect:active {
+  box-shadow: inset 6px 6px 12px #d1d1d1, inset -6px -6px 12px #f5f5f5;
+  transform: scale(0.98);
+}
+
+/* Neo-Brutalism enhanced effects */
+:root[data-theme="neo-brutalism"] .glass-effect {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+:root[data-theme="neo-brutalism"] .glass-effect:hover {
+  box-shadow: 6px 6px 0px #000000;
+  transform: translate(-2px, -2px);
+  background: var(--mint);
+}
+
+:root[data-theme="neo-brutalism"] .rounded-3xl:hover {
+  box-shadow: 8px 8px 0px #000000;
+  transform: translate(-3px, -3px) scale(1.01);
+  background: var(--pink);
+  border-color: #000000;
+}
+
+:root[data-theme="neo-brutalism"] button:hover {
+  box-shadow: 4px 4px 0px #000000;
+  transform: translate(-1px, -1px);
+  background: var(--amber);
+  color: #000000;
+}
+
+:root[data-theme="neo-brutalism"] button:active,
+:root[data-theme="neo-brutalism"] .glass-effect:active {
+  box-shadow: 2px 2px 0px #000000;
+  transform: translate(1px, 1px);
+}
+
+/* Theme-specific background blob animations */
+:root .animate-pulse {
+  animation: glassmorphismPulse 4s ease-in-out infinite;
+}
+
+@keyframes glassmorphismPulse {
+  0%, 100% { 
+    opacity: 0.2; 
+    transform: scale(1) rotate(0deg);
+  }
+  50% { 
+    opacity: 0.4; 
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+:root[data-theme="neumorphism"] .animate-pulse {
+  animation: neumorphismFloat 6s ease-in-out infinite;
+}
+
+@keyframes neumorphismFloat {
+  0%, 100% { 
+    transform: translateY(0px) scale(1);
+    opacity: 0.1;
+  }
+  50% { 
+    transform: translateY(-20px) scale(1.05);
+    opacity: 0.2;
+  }
+}
+
+:root[data-theme="neo-brutalism"] .animate-pulse {
+  animation: brutalismJump 3s linear infinite;
+}
+
+@keyframes brutalismJump {
+  0%, 100% { 
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  25% { 
+    transform: translate(10px, -10px) rotate(5deg);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translate(-5px, -20px) rotate(-3deg);
+    opacity: 0.4;
+  }
+  75% { 
+    transform: translate(-10px, -5px) rotate(2deg);
+    opacity: 0.7;
+  }
+}
+
+/* Enhanced theme-specific text selection */
+:root ::selection { 
+  background: rgba(139, 92, 246, 0.3); 
+  color: #fff; 
+}
+
+:root[data-theme="neumorphism"] ::selection { 
+  background: rgba(33, 150, 243, 0.3); 
+  color: #000; 
+}
+
+:root[data-theme="neo-brutalism"] ::selection { 
+  background: var(--mint); 
+  color: #000; 
+}
+
+/* Enhanced focus styles per theme */
+:root :focus-visible { 
+  outline: 2px solid rgba(139, 92, 246, 0.8); 
+  outline-offset: 2px; 
+  border-radius: 8px; 
+}
+
+:root[data-theme="neumorphism"] :focus-visible { 
+  outline: 2px solid #2196f3; 
+  box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.2);
+}
+
+:root[data-theme="neo-brutalism"] :focus-visible { 
+  outline: 3px solid #000000; 
+  outline-offset: 2px;
+  box-shadow: 3px 3px 0px var(--amber);
+  border-radius: 0;
+}
