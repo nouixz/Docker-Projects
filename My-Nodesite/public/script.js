@@ -472,6 +472,8 @@
     'neo-brutalism': 'Neo-Brutalism'
   };
 
+
+
   // Load saved theme or default to glassmorphism
   function loadTheme() {
     const savedTheme = localStorage.getItem(THEME_KEY) || 'glassmorphism';
@@ -485,9 +487,10 @@
     document.documentElement.removeAttribute('data-theme');
     
     // Apply new theme (glassmorphism is default, no attribute needed)
-    if (themeName !== 'glassmorphism') {
-      document.documentElement.setAttribute('data-theme', themeName);
-    }
+    // Set data-theme attribute for all themes
+    document.documentElement.setAttribute('data-theme', themeName);
+
+
 
     // Update theme selector button text
     if (currentThemeName) {
