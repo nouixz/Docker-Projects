@@ -540,3 +540,71 @@ body {
   box-shadow: 3px 3px 0px var(--amber);
   border-radius: 0;
 }
+
+/* Override Tailwind text colors to use CSS custom properties */
+.text-white,
+.text-white\/70,
+.text-white\/60,
+.text-white\/80,
+.text-white\/90,
+nav a,
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text) !important;
+}
+
+.text-white\/70 {
+  color: var(--text-dim) !important;
+}
+
+.text-white\/60 {
+  opacity: 0.6;
+  color: var(--text) !important;
+}
+
+.text-white\/80 {
+  opacity: 0.8;
+  color: var(--text) !important;
+}
+
+/* Hover states for navigation */
+nav a:hover {
+  color: var(--text) !important;
+  opacity: 1;
+}
+
+/* Background overrides */
+.bg-black {
+  background: var(--bg-grad-1) !important;
+}
+
+/* Border overrides */
+.border-white\/10,
+.border-white\/15,
+.border-white\/20 {
+  border-color: var(--border) !important;
+}
+
+.border-white\/40 {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+:root[data-theme="neumorphism"] .border-white\/40 {
+  border-color: #999999 !important;
+}
+
+:root[data-theme="neo-brutalism"] .border-white\/40 {
+  border-color: #000000 !important;
+}
+
+/* Card background overrides */
+.bg-white\/5,
+.bg-white\/10 {
+  background: var(--glass) !important;
+}
+
+/* Backdrop blur overrides */
+.backdrop-blur-xl,
+.backdrop-blur-2xl {
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+}
