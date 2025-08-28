@@ -1,21 +1,22 @@
 services:
   app:
     build: .
-    image: my-nodesite:latest
     ports:
       - "3000:3000"
     env_file:
       - .env
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - HOST=${HOST}
-      - PORT=${PORT}
-      - BASE_URL=${BASE_URL}
-      - SESSION_SECRET=${SESSION_SECRET}
-      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
-      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
-      - GITHUB_CALLBACK_URL=${GITHUB_CALLBACK_URL}
-      - OAUTH_REDIRECT_URI=${OAUTH_REDIRECT_URI}
+      - NODE_ENV=${NODE_ENV:-development}
+      - HOST=${HOST:-0.0.0.0}
+      - PORT=${PORT:-3000}
+      - BASE_URL=${BASE_URL:-http://localhost:3000}
+      - SESSION_SECRET=${SESSION_SECRET:-change_me}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID:-}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET:-}
+      - GITHUB_CALLBACK_URL=${GITHUB_CALLBACK_URL:-http://localhost:3000/auth/github/callback}
+      - OAUTH_REDIRECT_URI=${OAUTH_REDIRECT_URI:-http://localhost:3000/auth/github/callback}
+      - ADMIN_GITHUB_USER=${ADMIN_GITHUB_USER:-}
+      - DATABASE_URL=postgres://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-app}@db:5432/${POSTGRES_DB:-appdb}
     restart: unless-stopped
     depends_on:
       - db
