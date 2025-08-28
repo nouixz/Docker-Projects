@@ -129,10 +129,89 @@ body {
   background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
 }
 
-/* Spline background visibility per theme - now show for all themes */
-.theme-spline { 
-  opacity: 1; 
-  transition: opacity .35s ease; 
+/* Custom frosted glass tiles effect for glassmorphism theme */
+.glassmorphism-background {
+  display: none;
+}
+
+[data-theme="glassmorphism"] .glassmorphism-background {
+  display: block;
+}
+
+.frosted-tiles {
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 20px,
+      transparent 20px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 30px,
+      transparent 30px,
+      transparent 60px
+    );
+  backdrop-filter: blur(1px);
+}
+
+.orange-spheres {
+  position: absolute;
+  inset: 0;
+}
+
+.orange-spheres::before,
+.orange-spheres::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 165, 0, 0.8), rgba(255, 140, 0, 0.4) 50%, transparent 70%),
+    radial-gradient(circle at 70% 70%, rgba(255, 140, 0, 0.3), transparent);
+  filter: blur(2px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.orange-spheres::before {
+  width: 120px;
+  height: 120px;
+  top: 20%;
+  right: 15%;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 165, 0, 0.9), rgba(255, 140, 0, 0.5) 40%, rgba(255, 100, 0, 0.2) 70%, transparent),
+    radial-gradient(circle at 70% 70%, rgba(255, 140, 0, 0.4), rgba(255, 100, 0, 0.1) 60%, transparent);
+  box-shadow: 
+    0 0 60px rgba(255, 165, 0, 0.3),
+    inset -20px -20px 40px rgba(255, 140, 0, 0.3);
+}
+
+.orange-spheres::after {
+  width: 80px;
+  height: 80px;
+  bottom: 30%;
+  left: 10%;
+  background: 
+    radial-gradient(circle at 40% 40%, rgba(255, 140, 0, 0.8), rgba(255, 100, 0, 0.4) 50%, transparent 80%),
+    radial-gradient(circle at 60% 60%, rgba(255, 165, 0, 0.3), transparent);
+  animation-delay: 4s;
+  box-shadow: 
+    0 0 40px rgba(255, 140, 0, 0.25),
+    inset -15px -15px 30px rgba(255, 100, 0, 0.2);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 0.9;
+  }
 }
 
 /* Tone background elements down for neumorphism and neo-brutalism to avoid glassy look */

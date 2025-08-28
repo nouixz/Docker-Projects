@@ -472,12 +472,7 @@
     'neo-brutalism': 'Neo-Brutalism'
   };
 
-  // Spline background URLs for each theme
-  const SPLINE_URLS = {
-    'glassmorphism': 'https://my.spline.design/glassmorphlandingpage-r1pmQf5tvi4GW4g8DXYRNlVn/',
-    'neumorphism': 'https://my.spline.design/untitled-09a8b7c6d4e5f7890123456789abcdef/',
-    'neo-brutalism': 'https://my.spline.design/untitled-1a2b3c4d5e6f7890abcdef1234567890/'
-  };
+
 
   // Load saved theme or default to glassmorphism
   function loadTheme() {
@@ -492,15 +487,10 @@
     document.documentElement.removeAttribute('data-theme');
     
     // Apply new theme (glassmorphism is default, no attribute needed)
-    if (themeName !== 'glassmorphism') {
-      document.documentElement.setAttribute('data-theme', themeName);
-    }
+    // Set data-theme attribute for all themes
+    document.documentElement.setAttribute('data-theme', themeName);
 
-    // Update Spline background URL for the theme
-    const splineIframe = document.getElementById('spline-iframe');
-    if (splineIframe && SPLINE_URLS[themeName]) {
-      splineIframe.src = SPLINE_URLS[themeName];
-    }
+
 
     // Update theme selector button text
     if (currentThemeName) {
