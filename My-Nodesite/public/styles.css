@@ -129,10 +129,11 @@ body {
   background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
 }
 
-/* Spline background visibility per theme */
-.theme-spline { opacity: 1; transition: opacity .35s ease; }
-:root[data-theme="neumorphism"] .theme-spline,
-:root[data-theme="neo-brutalism"] .theme-spline { opacity: 0; }
+/* Spline background visibility per theme - now show for all themes */
+.theme-spline { 
+  opacity: 1; 
+  transition: opacity .35s ease; 
+}
 
 /* Tone background elements down for neumorphism and neo-brutalism to avoid glassy look */
 /* Remove glassy purple layers for these themes */
