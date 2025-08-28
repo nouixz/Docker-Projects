@@ -61,14 +61,16 @@ function parseCookies(req) {
   if (header) {
     header.split(';').forEach((cookie) => {
       let [name, ...rest] = cookie.split('=');
-      name = name?.trim();
-      if (name) {
-        const value = rest.join('=').trim();
-        if (value[0] === '"') {
-          value = value.slice(1, -1);
-        }
-        cookies[name] = decodeURIComponent(value);
+      name = name && name.trim();
+      if (!name) return;
+      let value = rest.join('=');
+      if (!value) { cookies[name] = ''; return; }
+      value = value.trim();
+      if (value.startsWith('"') && value.endsWith('"')) {
+        value = value.slice(1, -1);
       }
+      try { cookies[name] = decodeURIComponent(value); }
+      catch { cookies[name] = value; }
     });
   }
   return cookies;
@@ -123,10 +125,13 @@ async function ensureDataFile() {
 
 async function initDatabase() {
   if (!DATABASE_URL || !Client) return false;
-  try {
-    pgClient = new Client({ connectionString: DATABASE_URL });
-    await pgClient.connect();
-    await pgClient.query(`
+  const maxRetries = Number(process.env.DB_RETRIES || 10);
+  const baseDelayMs = Number(process.env.DB_RETRY_DELAY_MS || 500);
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      pgClient = new Client({ connectionString: DATABASE_URL });
+      await pgClient.connect();
+      await pgClient.query(`
       CREATE TABLE IF NOT EXISTS projects (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
@@ -141,20 +146,26 @@ async function initDatabase() {
         created_at TIMESTAMPTZ DEFAULT NOW(),
         updated_at TIMESTAMPTZ DEFAULT NOW()
       );
-    `);
-    await pgClient.query(`
+      `);
+      await pgClient.query(`
       CREATE TABLE IF NOT EXISTS views (
         day DATE NOT NULL,
         page TEXT NOT NULL,
         vid TEXT NOT NULL,
         PRIMARY KEY (day, page, vid)
       );
-    `);
-    console.log("[DB] Connected and tables ensured");
-  } catch (err) {
-    console.error("[DB] Error:", err);
-    pgClient = null;
+      `);
+      console.log("[DB] Connected and tables ensured");
+      return true;
+    } catch (err) {
+      console.error(`[DB] Attempt ${attempt}/${maxRetries} failed:`, err && err.code || err && err.message || err);
+      pgClient = null;
+      if (attempt === maxRetries) break;
+      const delay = baseDelayMs * Math.pow(1.5, attempt - 1);
+      await new Promise(r => setTimeout(r, delay));
+    }
   }
+  return false;
 }
 
 async function readProjects() {
@@ -311,6 +322,75 @@ const server = http.createServer((req, res) => {
     return json(res, 200, { authed: isAuthed, user: session?.user });
   }
 
+  // Simple metrics API (anonymous page views)
+  if (urlPath === "/api/metrics/view" && req.method === "POST") {
+    (async () => {
+      try {
+        const body = await parseBody(req);
+        const page = (body && body.page) ? String(body.page).slice(0, 100) : 'home';
+        const day = new Date().toISOString().slice(0, 10);
+        const vid = (parseCookies(req).vid) || crypto.randomBytes(8).toString('hex');
+        const setCookies = [];
+        if (!cookies.vid) setCookies.push(cookie('vid', vid, { maxAge: 60*60*24*365 }));
+        if (pgClient) {
+          await pgClient.query('insert into views(day,page,vid) values ($1,$2,$3) on conflict do nothing', [day, page, vid]);
+        }
+        res.writeHead(204, { 'Set-Cookie': setCookies });
+        res.end();
+      } catch (e) { json(res, 200, { ok: true }); }
+    })();
+    return;
+  }
+  if (urlPath.startsWith('/api/metrics/summary') && req.method === 'GET') {
+    (async () => {
+      try {
+        const url = new URL(req.url, `http://localhost:${PORT}`);
+        const days = Math.min(180, Math.max(1, Number(url.searchParams.get('days') || 30)));
+        const end = new Date();
+        const start = new Date(Date.now() - days*24*3600*1000);
+        let rows = [];
+        if (pgClient) {
+          const result = await pgClient.query(`
+            select day::text as day, page, count(*) as views, count(distinct vid) as uniques
+            from views
+            where day between $1 and $2
+            group by day, page
+            order by day asc
+          `, [start.toISOString().slice(0,10), end.toISOString().slice(0,10)]);
+          rows = result.rows;
+        }
+        // Build time series per day
+        const labels = [];
+        const views = [];
+        const uniques = [];
+        const byDay = new Map();
+        rows.forEach(r => {
+          const k = r.day;
+          const cur = byDay.get(k) || { views: 0, uniques: 0 };
+          cur.views += Number(r.views||0);
+          cur.uniques += Number(r.uniques||0);
+          byDay.set(k, cur);
+        });
+        for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+          const k = d.toISOString().slice(0,10);
+          labels.push(k);
+          const v = byDay.get(k) || { views: 0, uniques: 0 };
+          views.push(v.views);
+          uniques.push(v.uniques);
+        }
+        // Top pages
+        const pageAgg = new Map();
+        rows.forEach(r => {
+          const key = r.page || 'home';
+          pageAgg.set(key, (pageAgg.get(key)||0) + Number(r.views||0));
+        });
+        const topPages = Array.from(pageAgg.entries()).sort((a,b)=>b[1]-a[1]).slice(0,8);
+        return json(res, 200, { labels, views, uniques, pages: topPages });
+      } catch (e) { return json(res, 200, { labels: [], views: [], uniques: [], pages: [] }); }
+    })();
+    return;
+  }
+
   // GitHub OAuth routes
   if (urlPath === "/auth/github") {
     if (!GITHUB_CLIENT_ID) {
@@ -389,6 +469,10 @@ const server = http.createServer((req, res) => {
     const sidCookie = cookie("sid", "", { maxAge: 0 });
     res.writeHead(200, { "Set-Cookie": sidCookie });
     return res.end();
+  }
+  if (req.method === "GET" && urlPath === "/logout") {
+    const sidCookie = cookie("sid", "", { maxAge: 0 });
+    return redirect(res, "/", [sidCookie]);
   }
 
   // Projects API

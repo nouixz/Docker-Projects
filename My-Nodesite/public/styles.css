@@ -83,18 +83,7 @@
   --blob-amber: #ff8800;
   --blob-teal: #00ffff;
 }
-  --glass-strong: rgba(255, 255, 255, 0.10);
-  --border: rgba(255, 255, 255, 0.18);
-  --text: rgba(255, 255, 255, 0.92);
-  --text-dim: rgba(255, 255, 255, 0.72);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-  --loss: #ef4444;
-  --gain: #22c55e;
 
-  /* fixed layout row sizes */
-  
-  /* Base theme variables (moved above) */
-}
 
 /* Minimal baseline styles for a blank page */
 * { box-sizing: border-box; }
