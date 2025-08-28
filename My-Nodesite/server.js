@@ -9,8 +9,12 @@ const { Client } = (() => {
 const path = require("path");
 const fsp = fs.promises;
 
-// Load environment variables from .env file
-require('dotenv').config();
+// Load environment variables from .env file (optional in production)
+try {
+  require('dotenv').config();
+} catch (e) {
+  // dotenv not available in production, environment variables will be provided by the system
+}
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, "public");
