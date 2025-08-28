@@ -1,46 +1,48 @@
 /* Multi-theme system with CSS Custom Properties */
 
 :root {
-  /* Default theme: Glassmorphism (dusk-meadow palette) */
-  --bg-grad-1: #0b1218; /* deep teal */
-  --bg-grad-2: #0d151f; /* night blue */
-  --bg-grad-3: #101a26; /* base */
+  /* Default theme: Modern Gradient (dark sophisticated) */
+  --bg-grad-1: #0a0a0f; /* deep purple-black */
+  --bg-grad-2: #1a1425; /* dark purple */
+  --bg-grad-3: #2d1b69; /* rich purple */
 
-  /* UI accent colors remain for buttons/logo */
-  --pink: #ff53a5;
-  --blue: #5ecbff;
-  --violet: #8b5cf6;
-  --mint: #4ef3a3;
-  --amber: #ffcc70;
+  /* UI accent colors - modern vibrant palette */
+  --pink: #ff6b9d;
+  --blue: #4ecdc4;
+  --violet: #6c5ce7;
+  --mint: #00d4aa;
+  --amber: #fdcb6e;
 
-  /* Background blob colors (decoupled from UI accents) */
-  --blob-green: #4ade80;  /* soft green */
-  --blob-amber: #fbbf24;  /* warm amber */
-  --blob-teal: #22d3ee;   /* bright teal */
+  /* Background blob colors - modern gradient accents */
+  --blob-green: #00d4aa;  /* vibrant mint */
+  --blob-amber: #fdcb6e;  /* warm amber */
+  --blob-teal: #4ecdc4;   /* aqua teal */
+  --blob-purple: #6c5ce7; /* modern purple */
+  --blob-pink: #ff6b9d;   /* soft pink */
 
-  /* lighter, more transparent glass */
-  --glass: rgba(255, 255, 255, 0.045);
-  --glass-strong: rgba(255, 255, 255, 0.10);
-  --border: rgba(255, 255, 255, 0.18);
-  --text: rgba(255, 255, 255, 0.92);
-  --text-dim: rgba(255, 255, 255, 0.72);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  /* Enhanced glass effects */
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-strong: rgba(255, 255, 255, 0.15);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: rgba(255, 255, 255, 0.95);
+  --text-dim: rgba(255, 255, 255, 0.75);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   --loss: #ef4444;
   --gain: #22c55e;
 
-  /* Theme-specific properties */
-  --backdrop-blur: blur(16px);
-  --button-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 20px 60px rgba(99,102,241,0.25), 0 10px 30px rgba(168,85,247,0.15);
-  /* Generic surface shadows (overridden per theme if needed) */
-  --panel-shadow: 0 30px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18);
-  --card-shadow: 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14);
-  --card-shadow-hover: 0 24px 60px rgba(99,102,241,0.30), 0 14px 44px rgba(168,85,247,0.20);
+  /* Theme-specific properties - enhanced effects */
+  --backdrop-blur: blur(20px);
+  --button-shadow: 0 10px 40px rgba(108, 92, 231, 0.4), 0 6px 20px rgba(255, 107, 157, 0.2), inset 0 1px 0 rgba(255,255,255,0.3);
+  /* Enhanced surface shadows */
+  --panel-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 20px 60px rgba(108, 92, 231, 0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+  --card-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 15px 40px rgba(108, 92, 231, 0.2);
+  --card-shadow-hover: 0 40px 100px rgba(0,0,0,0.5), 0 20px 60px rgba(108, 92, 231, 0.3);
 
-  /* Headline gradient */
-  --headline-grad-start: #6366f1;
-  --headline-grad-end: #a855f7;
-  --accent-grad-start: rgba(99,102,241,0.30);
-  --accent-grad-end: rgba(168,85,247,0.30);
+  /* Enhanced gradient colors */
+  --headline-grad-start: #6c5ce7;
+  --headline-grad-end: #ff6b9d;
+  --accent-grad-start: rgba(108, 92, 231, 0.4);
+  --accent-grad-end: rgba(255, 107, 157, 0.4);
 }
 
 /* Neumorphism Theme */
@@ -741,6 +743,231 @@ html.theme-pulse[data-theme="neo-brutalism"] .theme-animate { animation: themeIn
   outline-offset: 2px;
   box-shadow: 3px 3px 0px var(--amber);
   border-radius: 0;
+}
+
+/* Modern Background Effects */
+.modern-background {
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(108, 92, 231, 0.15), transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 107, 157, 0.15), transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(0, 212, 170, 0.1), transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(253, 203, 110, 0.1), transparent 40%),
+    linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
+}
+
+/* Modern geometric patterns */
+.modern-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(108, 92, 231, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 107, 157, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(0, 212, 170, 0.06) 0%, transparent 50%);
+  animation: modernBackgroundMove 20s ease-in-out infinite;
+}
+
+@keyframes modernBackgroundMove {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  33% { 
+    transform: scale(1.1) rotate(120deg);
+    opacity: 0.8;
+  }
+  66% { 
+    transform: scale(0.9) rotate(240deg);
+    opacity: 0.9;
+  }
+}
+
+/* Enhanced glass morphism effects */
+.modern-glass {
+  background: linear-gradient(145deg, 
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced typography */
+body {
+  font-family: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6, .modern-heading {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+.modern-heading {
+  font-weight: 800;
+}
+
+/* Modern smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced modern effects */
+.modern-card {
+  background: linear-gradient(145deg, 
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 4px 16px rgba(108, 92, 231, 0.1);
+}
+
+.modern-card {
+  background: linear-gradient(145deg, 
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 4px 16px rgba(108, 92, 231, 0.1);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.modern-card:hover {
+  transform: translateY(-12px) rotateX(2deg);
+  box-shadow: 
+    0 48px 96px rgba(0, 0, 0, 0.4),
+    0 24px 48px rgba(108, 92, 231, 0.25),
+    0 12px 24px rgba(255, 107, 157, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Enhanced typography styles */
+.modern-heading {
+  background: linear-gradient(135deg, 
+    var(--headline-grad-start) 0%, 
+    var(--headline-grad-end) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: modernGradientShift 8s ease-in-out infinite;
+}
+
+@keyframes modernGradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Modern button styles */
+.modern-button {
+  position: relative;
+  background: linear-gradient(145deg, 
+    rgba(108, 92, 231, 0.8) 0%, 
+    rgba(255, 107, 157, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.modern-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    transparent 50%, 
+    rgba(255, 255, 255, 0.1) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.modern-button:hover::before {
+  transform: translateX(100%);
+}
+
+.modern-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 20px 40px rgba(108, 92, 231, 0.4),
+    0 10px 20px rgba(255, 107, 157, 0.3);
+}
+
+/* Scroll-triggered animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-on-scroll.delay-100 { animation-delay: 0.1s; }
+.animate-on-scroll.delay-200 { animation-delay: 0.2s; }
+.animate-on-scroll.delay-300 { animation-delay: 0.3s; }
+.animate-on-scroll.delay-400 { animation-delay: 0.4s; }
+.animate-on-scroll.delay-500 { animation-delay: 0.5s; }
+
+/* Enhanced glassmorphism for different elements */
+.stats-card {
+  background: linear-gradient(145deg, 
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Override Tailwind text colors to use CSS custom properties */
