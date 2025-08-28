@@ -365,15 +365,22 @@
       const profileUrl = `https://github.com/${user}?tab=repositories`;
       if (ghLink) ghLink.href = profileUrl;
       if (ghLinkFooter) ghLinkFooter.href = profileUrl;
-      const [reposRes, userRes] = await Promise.all([
-        fetch(`https://api.github.com/users/${encodeURIComponent(user)}/repos?per_page=100&sort=updated`),
-        fetch(`https://api.github.com/users/${encodeURIComponent(user)}`)
-      ]);
-      const data = await reposRes.json();
-      const profile = await userRes.json();
-      state.ghRepos = (Array.isArray(data) ? data : []).filter(r => !r.fork).slice(0, 50);
-      // Build stats cards
-      buildStats(profile);
+      
+      try {
+        const [reposRes, userRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${encodeURIComponent(user)}/repos?per_page=100&sort=updated`),
+          fetch(`https://api.github.com/users/${encodeURIComponent(user)}`)
+        ]);
+        const data = await reposRes.json();
+        const profile = await userRes.json();
+        state.ghRepos = (Array.isArray(data) ? data : []).filter(r => !r.fork).slice(0, 50);
+        buildStats(profile);
+      } catch (apiError) {
+        // Fallback with empty data if API is unavailable
+        state.ghRepos = [];
+        const mockProfile = { followers: 0, public_repos: 0 };
+        buildStats(mockProfile);
+      }
     } catch (e) {
       state.ghRepos = [];
     }
@@ -393,11 +400,13 @@
       { label: 'Followers', value: followers, icon: 'users' }
     ];
     el.innerHTML = items.map(({label,value,icon})=> `
-      <div class="rounded-3xl p-5 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 18px 48px rgba(255,255,255,0.08)">
+      <div class="rounded-3xl p-5 backdrop-blur-2xl border border-white/15 hover:border-white/30 transition-all duration-300 ${label === 'Repos' ? 'cursor-pointer hover:bg-white/10' : ''}" 
+           style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 18px 48px rgba(255,255,255,0.08)" 
+           ${label === 'Repos' ? 'data-repos-card="true"' : ''}>
         <div class="flex items-center justify-between">
           <div>
             <div class="text-2xl font-semibold">${value}</div>
-            <div class="text-white/60 text-sm">${label}</div>
+            <div class="text-white/60 text-sm">${label}${label === 'Repos' ? ' • Click to view' : ''}</div>
           </div>
           <div class="w-10 h-10 rounded-2xl bg-white/10 grid place-items-center">
             <i data-lucide="${icon}" class="w-5 h-5"></i>
@@ -438,10 +447,12 @@
       </a>
     `).join('');
   }
-  // Open repo modal on stars chart click
+  // Open repo modal on repos stat click, remove from stars chart
   document.addEventListener('click', (e) => {
     const t = e.target;
-    if (t && t.id === 'stars-chart') {
+    // Check if clicked element or its parent has the repos card attribute
+    const reposCard = t.closest('[data-repos-card="true"]');
+    if (reposCard) {
       showRepoModal(true);
       renderRepoList();
     }
