@@ -32,6 +32,38 @@
           <a href="#/about" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">About</a>
           <a href="#/blog" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Blog</a>
           <a href="#/contact" data-route class="px-4 py-2 rounded-2xl text-white/70 hover:text-white">Contact</a>
+          
+          <!-- Theme Selector -->
+          <div class="theme-selector ml-2">
+            <button id="theme-button" class="theme-button flex items-center gap-2">
+              <i data-lucide="palette" class="w-4 h-4"></i>
+              <span id="current-theme-name">Glassmorphism</span>
+            </button>
+            <div id="theme-dropdown" class="theme-dropdown">
+              <a href="#" class="theme-option active" data-theme="glassmorphism">
+                <div class="theme-preview glassmorphism"></div>
+                <div>
+                  <div class="font-medium">Glassmorphism</div>
+                  <div class="text-sm opacity-70">Frosted glass effects</div>
+                </div>
+              </a>
+              <a href="#" class="theme-option" data-theme="neumorphism">
+                <div class="theme-preview neumorphism"></div>
+                <div>
+                  <div class="font-medium">Neumorphism</div>
+                  <div class="text-sm opacity-70">Soft, extruded surfaces</div>
+                </div>
+              </a>
+              <a href="#" class="theme-option" data-theme="neo-brutalism">
+                <div class="theme-preview neo-brutalism"></div>
+                <div>
+                  <div class="font-medium">Neo-Brutalism</div>
+                  <div class="text-sm opacity-70">Bold, harsh aesthetics</div>
+                </div>
+              </a>
+            </div>
+          </div>
+          
           <div id="auth-controls" class="ml-4 flex items-center gap-2">
             <button id="open-login" class="px-5 py-2 rounded-2xl text-sm font-medium relative overflow-hidden group"
               style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(16px);">
