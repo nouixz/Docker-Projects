@@ -222,25 +222,42 @@
 
         <!-- Informative API graphics (GitHub stats) -->
         <div class="mt-16">
-          <h2 class="text-2xl font-semibold mb-4">Activity</h2>
+          <h2 class="text-2xl font-semibold mb-4">Activity Overview</h2>
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
-              <h3 class="font-semibold mb-2">Languages (Top repos)</h3>
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(34,197,94,0.22), 0 10px 30px rgba(16,185,129,0.14)">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center">
+                  <i data-lucide="code" class="w-4 h-4"></i>
+                </div>
+                <h3 class="font-semibold">Languages Distribution</h3>
+              </div>
               <canvas id="lang-chart" height="140"></canvas>
             </div>
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
-              <div class="flex items-center justify-between mb-2">
-                <h3 class="font-semibold">Stars per Repo</h3>
-                <span class="text-xs text-white/60">Click to view all</span>
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                  <i data-lucide="star" class="w-4 h-4"></i>
+                </div>
+                <h3 class="font-semibold">Repository Stars</h3>
               </div>
-              <canvas id="stars-chart" height="140" style="cursor: pointer;"></canvas>
+              <canvas id="stars-chart" height="140"></canvas>
             </div>
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
-              <h3 class="font-semibold mb-2">Commits (last 90d)</h3>
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(168,85,247,0.22), 0 10px 30px rgba(99,102,241,0.14)">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center">
+                  <i data-lucide="git-commit" class="w-4 h-4"></i>
+                </div>
+                <h3 class="font-semibold">Activity Trend</h3>
+              </div>
               <canvas id="commits-chart" height="140"></canvas>
             </div>
-            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(99,102,241,0.22), 0 10px 30px rgba(168,85,247,0.14)">
-              <h3 class="font-semibold mb-2">Top Pages (Views)</h3>
+            <div class="rounded-3xl p-6 backdrop-blur-2xl border border-white/15 hover:border-white/25 transition-all duration-300" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 60px rgba(249,115,22,0.22), 0 10px 30px rgba(245,101,101,0.14)">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
+                  <i data-lucide="trending-up" class="w-4 h-4"></i>
+                </div>
+                <h3 class="font-semibold">Popular Pages</h3>
+              </div>
               <canvas id="pages-chart" height="140"></canvas>
             </div>
           </div>
